@@ -60,7 +60,6 @@
         <dependency>
             <artifactId>server</artifactId>
             <groupId>com.tfcndky</groupId>
-
         </dependency>
 
     </dependencies>
