@@ -1,13 +1,13 @@
-package com.tfcndky.olineclass;
+package com.tfcndky.course;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class OlineclassApplication {
+public class EurekaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(OlineclassApplication.class, args);
+		SpringApplication.run(EurekaApplication.class, args);
 	}
 
 }
