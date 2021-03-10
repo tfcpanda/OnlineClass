@@ -9,7 +9,8 @@
 		<module>system</module>
 		<module>eureka</module>
 		<module>gateway</module>
-	</modules>
+        <module>server</module>
+    </modules>
 
 
 	<parent>
