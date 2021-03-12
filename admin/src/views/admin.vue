@@ -920,6 +920,21 @@
 </template>
 
 <script>
-$('body').remove('login-layout light-login');
-$('body').attr('class', 'no-skin');
+
+
+export default {
+
+  name: "login",
+  mounted:function () {
+    $("body").attr("class", "no-skin");
+    $("body").remove("login-layout light-login");
+    console.log("admin")
+
+  },
+  methods:{
+    login (){
+      this.$router.push("/admin")
+    }
+  }
+}
 </script>
