@@ -1,4 +1,4 @@
-package com.course.business.controller;
+package com.course.business.controller.admin;
 
 import com.course.server.domain.Chapter;
 import com.course.server.service.ChapterService;
@@ -10,6 +10,7 @@ import java.util.List;
 
 
 @RestController
+@RequestMapping("/admin")
 public class ChapterController {
 
     @Resource
@@ -19,5 +20,7 @@ public class ChapterController {
     public List<Chapter> chapter(){
         return chapterService.list();
     }
+
+//    测试
 
 }
