@@ -416,8 +416,6 @@
               </li>
 
 
-
-
             </ul>
           </li>
 
@@ -551,11 +549,25 @@
 
 export default {
 
-  name: "login",
+  name: "admin",
   mounted: function () {
+    let _this = this;
     $("body").attr("class", "no-skin");
     $("body").remove("login-layout light-login");
-    console.log("admin")
+    _this.activeSidebar(_this.$route.name.replace("/", "-") + "-sidebar");
+  },
+  watch: {
+    $route: {
+      handler: function (val, oldVal) {
+        // sidebar激活样式方法二
+        console.log("---->页面跳转：", val, oldVal);
+        let _this = this;
+        _this.$nextTick(function () {  //页面加载完成后执行
+          _this.activeSidebar(_this.$route.name.replace("/", "-") + "-sidebar");
+        })
+      }
+    }
+
 
   },
   methods: {

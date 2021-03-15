@@ -402,7 +402,8 @@
 export default {
   name: "chapter",
   mounted: function() {
-    this.$parent.activeSidebar("business-chapter-sidebar");
+    //激活样式之一
+    // this.$parent.activeSidebar("business-chapter-sidebar");
   },
   methods: {
   }
