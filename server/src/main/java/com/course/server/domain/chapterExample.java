@@ -3,14 +3,14 @@ package com.course.server.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class chapterExample {
+public class ChapterExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public chapterExample() {
+    public ChapterExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 

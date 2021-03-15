@@ -1,30 +1,31 @@
 package com.course.server.mapper;
 
-import com.course.server.domain.chapter;
-import com.course.server.domain.chapterExample;
-import java.util.List;
+import com.course.server.domain.Chapter;
+import com.course.server.domain.ChapterExample;
 import org.apache.ibatis.annotations.Param;
 
-public interface chapterMapper {
-    long countByExample(chapterExample example);
+import java.util.List;
 
-    int deleteByExample(chapterExample example);
+public interface ChapterMapper {
+    long countByExample(ChapterExample example);
+
+    int deleteByExample(ChapterExample example);
 
     int deleteByPrimaryKey(String id);
 
-    int insert(chapter record);
+    int insert(Chapter record);
 
-    int insertSelective(chapter record);
+    int insertSelective(Chapter record);
 
-    List<chapter> selectByExample(chapterExample example);
+    List<Chapter> selectByExample(ChapterExample example);
 
-    chapter selectByPrimaryKey(String id);
+    Chapter selectByPrimaryKey(String id);
 
-    int updateByExampleSelective(@Param("record") chapter record, @Param("example") chapterExample example);
+    int updateByExampleSelective(@Param("record") Chapter record, @Param("example") ChapterExample example);
 
-    int updateByExample(@Param("record") chapter record, @Param("example") chapterExample example);
+    int updateByExample(@Param("record") Chapter record, @Param("example") ChapterExample example);
 
-    int updateByPrimaryKeySelective(chapter record);
+    int updateByPrimaryKeySelective(Chapter record);
 
-    int updateByPrimaryKey(chapter record);
+    int updateByPrimaryKey(Chapter record);
 }
