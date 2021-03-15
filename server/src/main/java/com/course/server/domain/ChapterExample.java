@@ -10,7 +10,7 @@ public class ChapterExample {
 
     protected List<Criteria> oredCriteria;
 
-    public ChapterExample() {
+    public chapterExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
