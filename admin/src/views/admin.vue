@@ -406,7 +406,7 @@
             <ul class="submenu">
 
 
-              <li class="active" id="business-chapter-sidebar">
+              <li class="active open" id="business-chapter-sidebar">
                 <router-link to="/business/chapter">
                   <i class="menu-icon fa fa-caret-right"></i>
                   大章管理
