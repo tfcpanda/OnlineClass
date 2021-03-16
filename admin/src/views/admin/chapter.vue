@@ -43,12 +43,44 @@
               <i class="ace-icon fa fa-pencil bigger-120"></i>
             </button>
 
-            <button class="btn btn-xs btn-danger">
+            <button v-on:click="del(chapter.id)" class="btn btn-xs btn-danger">
               <i class="ace-icon fa fa-trash-o bigger-120"></i>
             </button>
 
           </div>
+          <div class="hidden-md hidden-lg">
+            <div class="inline position-relative">
+              <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
+              </button>
 
+              <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                <li>
+                  <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
+																		<span class="blue">
+																			<i class="ace-icon fa fa-search-plus bigger-120"></i>
+																		</span>
+                  </a>
+                </li>
+
+                <li>
+                  <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
+																		<span class="green">
+																			<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+																		</span>
+                  </a>
+                </li>
+
+                <li>
+                  <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
+																		<span class="red">
+																			<i class="ace-icon fa fa-trash-o bigger-120"></i>
+																		</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
 
         </td>
       </tr>
@@ -149,7 +181,17 @@ export default {
           $("#form-modal").modal("hide");
           _this.list(1);
         }
+      })
+    },
+    del(id) {
+      let _this = this;
+        _this.$ajax.delete('http://127.0.0.1:9000/business/admin/chapter/delete/' + id).then((response) => {
+        console.log("删除大章节列表结果：", response);
+        let resp = response.data;
+        if (resp.success) {
 
+          _this.list(1);
+        }
       })
     },
 

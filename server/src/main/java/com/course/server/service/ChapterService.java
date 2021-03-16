@@ -63,5 +63,10 @@ public class ChapterService {
 
     }
 
+    public void delete(String id) {
+        chapterMapper.deleteByPrimaryKey(id);
+
+    }
+
 
 }
