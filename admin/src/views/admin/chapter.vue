@@ -180,6 +180,8 @@ export default {
         if (resp.success) {
           $("#form-modal").modal("hide");
           _this.list(1);
+          toast.success("新增成功！");
+
         }
       })
     },
@@ -191,7 +193,7 @@ export default {
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        cancelButtonColor: '#dd3333',
         confirmButtonText: 'Yes, delete it!'
       }).then((result) => {
         if (result.isConfirmed) {
@@ -199,13 +201,9 @@ export default {
             console.log("删除大章节列表结果：", response);
             let resp = response.data;
             if (resp.success) {
-
+              toast.success("删除成功！");
               _this.list(1);
-              Swal.fire(
-                  '删除成功!',
-                  '删除成功',
-                  'success'
-              )
+
             }
           })
 
