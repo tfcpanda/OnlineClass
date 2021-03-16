@@ -178,12 +178,12 @@ export default {
     save(page) {
       let _this = this;
       //保存校验
-      if (!Validator.require(_this.chapter.name, "名称")
-        ||!Validator.require(_this.chapter.courseId, "课程Id")
-      || !Validator.length(_this.chapter.courseId, "课程Id", 1, 8))
-      {
-        return;
-      }
+      // if (!Validator.require(_this.chapter.name, "名称")
+      //   ||!Validator.require(_this.chapter.courseId, "课程Id")
+      // || !Validator.length(_this.chapter.courseId, "课程Id", 1, 8))
+      // {
+      //   return;
+      // }
 
 
       Loading.show();
@@ -198,6 +198,8 @@ export default {
           _this.list(1);
           Toast.success("新增成功！");
 
+        }else {
+          Toast.warning(resp.message);
         }
       })
     },
