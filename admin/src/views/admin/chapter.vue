@@ -146,12 +146,19 @@ export default {
 
   },
   methods: {
+    /**
+     * 增加方法
+     */
     add() {
       let _this = this;
       _this.chapter = {};
       $("#form-modal").modal("show");
     },
 
+    /**
+     * 编辑方法
+     * @param chapter
+     */
     edit(chapter) {
       let _this = this;
       _this.chapter = $.extend({}, chapter);
@@ -159,6 +166,10 @@ export default {
 
     },
 
+    /**
+     *列表查询
+     * @param page
+     */
     list(page) {
       let _this = this;
       Loading.show();
@@ -175,6 +186,10 @@ export default {
       })
     },
 
+    /**
+     * 保存
+     * @param page
+     */
     save(page) {
       let _this = this;
 
@@ -185,9 +200,7 @@ export default {
         return;
       }
 
-
       Loading.show();
-
       _this.$ajax.post('http://127.0.0.1:9000/business/admin/chapter/save',
           _this.chapter).then((response) => {
         Loading.hide();
@@ -204,6 +217,10 @@ export default {
       })
     },
 
+    /**
+     * 根据ID删除
+     * @param id
+     */
     del(id) {
       let _this = this;
       Confirm.show("删除大章后不可恢复，确认删除？", function () {
