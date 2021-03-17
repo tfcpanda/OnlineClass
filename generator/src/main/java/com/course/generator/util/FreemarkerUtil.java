@@ -15,7 +15,7 @@ import java.util.Map;
  * @author 田付成
  * @date 2021/3/16 23:03
  */
-public class FreemarkUtil {
+public class FreemarkerUtil {
     static String ftlPath = "generator\\src\\main\\java\\com\\course\\generator\\ftl\\";
 
     static Template temp;
