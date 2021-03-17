@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 public class ${Domain}Controller {
 
     private static final Logger LOG = LoggerFactory.getLogger(${Domain}Controller.class);
-    public static final String BUSINESS_NAME = "${tableNameCN}";
+    public static final String BUSINESS_NAME = "${tableNameCn}";
     @Resource
     private ${Domain}Service ${domain}Service;
 
