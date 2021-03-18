@@ -13,7 +13,26 @@ public class Field {
     private String javaType; // java类型：String
     private String comment; // 注释：课程|ID
     private Boolean nullAble; // 是否可为空
+
+    public Boolean getEnums() {
+        return enums;
+    }
+
+    public void setEnums(Boolean enums) {
+        this.enums = enums;
+    }
+
+    public String getEnumsConst() {
+        return enumsConst;
+    }
+
+    public void setEnumsConst(String enumsConst) {
+        this.enumsConst = enumsConst;
+    }
+
     private Integer length; // 字符串长度
+    private Boolean enums; // 是否是枚举
+    private String enumsConst; // 枚举常量 COURSE_LEVEL
 
     public Boolean getNullAble() {
         return nullAble;
@@ -99,6 +118,8 @@ public class Field {
                 ", comment='" + comment + '\'' +
                 ", nullAble=" + nullAble +
                 ", length=" + length +
+                ", enums=" + enums +
+                ", enumsConst='" + enumsConst + '\'' +
                 '}';
     }
 }
