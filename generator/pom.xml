@@ -30,6 +30,14 @@
             <artifactId>dom4j</artifactId>
         </dependency>
 
+
+        <!-- 读xml -->
+        <dependency>
+            <groupId>com.tfcndky</groupId>
+            <artifactId>server</artifactId>
+        </dependency>
+
+
     </dependencies>
 
 </project>
