@@ -64,7 +64,6 @@ public class ChapterController {
         ResponseDto responseDto = new ResponseDto();
         LOG.info("id:{}", id);
         chapterService.delete(id);
-
         return responseDto;
     }
 }
