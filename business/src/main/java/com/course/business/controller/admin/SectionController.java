@@ -45,10 +45,25 @@ public class SectionController {
         ResponseDto responseDto = new ResponseDto();
 
         //后端校验填入信息
-            ValidatorUtil.require(sectionDto.getId(), "id");
+
+
             ValidatorUtil.require(sectionDto.getTitle(), "标题");
             ValidatorUtil.length(sectionDto.getTitle(), "标题", 1, 50);
+
+
+
+
+
+
             ValidatorUtil.length(sectionDto.getVideo(), "视频", 1, 200);
+
+
+
+
+
+
+
+
 
         sectionService.save(sectionDto);
         responseDto.setContent(sectionDto);
