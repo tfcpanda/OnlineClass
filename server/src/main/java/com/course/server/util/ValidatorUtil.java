@@ -25,6 +25,9 @@ public class ValidatorUtil {
         if (StringUtils.isEmpty(str)) {
             return;
         }
+        if (StringUtils.isEmpty(str)) {
+            return;
+        }
         int length = 0;
         if (!StringUtils.isEmpty(str)) {
             length = str.length();
