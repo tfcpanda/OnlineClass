@@ -13,47 +13,88 @@
         </p>
 
         <pagination ref="pagination" v-bind:list="list" v-bind:itemCount="8"></pagination>
+      <div class="row">
+        <div v-for="course in courses" class="col-md-4">
+          <div class="thumbnail search-thumbnail">
+            <img v-show="!course.image" class="media-object" src="/static/image/demo-course.jpg" />
+            <img v-show="course.image" class="media-object" v-bind:src="course.image" />
+            <div class="caption">
+              <div class="clearfix">
+              <span class="pull-right label label-primary info-label">
+                {{COURSE_LEVEL | optionKV(course.level)}}
+              </span>
+                <span class="pull-right label label-primary info-label">
+                {{COURSE_CHARGE | optionKV(course.charge)}}
+              </span>
+                <span class="pull-right label label-primary info-label">
+                {{COURSE_STATUS | optionKV(course.status)}}
+              </span>
+              </div>
 
-        <table id="simple-table" class="table  table-bordered table-hover">
-            <thead>
-            <tr>
-                    <th>id</th>
-                    <th>标题</th>
-                    <th>课程</th>
-                    <th>大章</th>
-                    <th>视频</th>
-                    <th>时长</th>
-                    <th>收费</th>
-                    <th>顺序</th>
+              <h3 class="search-title">
+                <a href="#" class="blue">{{course.name}}</a>
+              </h3>
+              <p>
+                <span class="blue bolder bigger-150">{{course.price}}&nbsp;<i class="fa fa-rmb"></i></span>&nbsp;
+              </p>
+              <p>{{course.summary}}</p>
+              <p>
+                <span class="badge badge-info">{{course.id}}</span>
+                <span class="badge badge-info">排序：{{course.sort}}</span>
+                <span class="badge badge-info">时长：{{course.time}}</span>
+              </p>
+              <p>
+                <button v-on:click="edit(course)" class="btn btn-white btn-xs btn-info btn-round">
+                  编辑
+                </button>&nbsp;
+                <button v-on:click="del(course.id)" class="btn btn-white btn-xs btn-warning btn-round">
+                  删除
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+<!--        <table id="simple-table" class="table  table-bordered table-hover">-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                    <th>id</th>-->
+<!--                    <th>标题</th>-->
+<!--                    <th>课程</th>-->
+<!--                    <th>大章</th>-->
+<!--                    <th>视频</th>-->
+<!--                    <th>时长</th>-->
+<!--                    <th>收费</th>-->
+<!--                    <th>顺序</th>-->
 
-                <th>操作</th>
-            </tr>
-            </thead>
+<!--                <th>操作</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
 
-            <tbody>
-            <tr v-for="section in sections">
-                    <td>{{section.id}}</td>
-                    <td>{{section.title}}</td>
-                    <td>{{section.courseId}}</td>
-                    <td>{{section.chapterId}}</td>
-                    <td>{{section.video}}</td>
-                    <td>{{section.time}}</td>
-                    <td>{{SECTION_CHARGE | optionKV(section.charge)}}</td>
-                    <td>{{section.sort}}</td>
+<!--            <tbody>-->
+<!--            <tr v-for="section in sections">-->
+<!--                    <td>{{section.id}}</td>-->
+<!--                    <td>{{section.title}}</td>-->
+<!--                    <td>{{section.courseId}}</td>-->
+<!--                    <td>{{section.chapterId}}</td>-->
+<!--                    <td>{{section.video}}</td>-->
+<!--                    <td>{{section.time}}</td>-->
+<!--                    <td>{{SECTION_CHARGE | optionKV(section.charge)}}</td>-->
+<!--                    <td>{{section.sort}}</td>-->
 
-                <td>
-                    <div class="hidden-sm hidden-xs btn-group">
-                        <button v-on:click="edit(section)" class="btn btn-xs btn-info">
-                            <i class="ace-icon fa fa-pencil bigger-120"></i>
-                        </button>
-                        <button v-on:click="del(section.id)" class="btn btn-xs btn-danger">
-                            <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+<!--                <td>-->
+<!--                    <div class="hidden-sm hidden-xs btn-group">-->
+<!--                        <button v-on:click="edit(section)" class="btn btn-xs btn-info">-->
+<!--                            <i class="ace-icon fa fa-pencil bigger-120"></i>-->
+<!--                        </button>-->
+<!--                        <button v-on:click="del(section.id)" class="btn btn-xs btn-danger">-->
+<!--                            <i class="ace-icon fa fa-trash-o bigger-120"></i>-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--        </table>-->
 
         <div id="form-modal" class="modal fade" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
@@ -64,12 +105,7 @@
                     </div>
                     <div class="modal-body">
                         <form class="form-horizontal">
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">id</label>
-                                    <div class="col-sm-10">
-                                        <input v-model="section.id" class="form-control">
-                                    </div>
-                                </div>
+
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">标题</label>
                                     <div class="col-sm-10">
@@ -192,7 +228,7 @@
 
                 // 保存校验
                 if (1 != 1
-                    || !Validator.require(_this.section.id, "id")
+
                     || !Validator.require(_this.section.title, "标题")
                     || !Validator.length(_this.section.title, "标题", 1, 50)
                     || !Validator.length(_this.section.video, "视频", 1, 200)
@@ -234,3 +270,11 @@
         }
     }
 </script>
+
+
+
+<style scoped>
+.caption h3 {
+  font-size: 20px;
+}
+</style>

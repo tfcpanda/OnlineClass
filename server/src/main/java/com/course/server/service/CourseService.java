@@ -63,7 +63,7 @@ public class CourseService {
      * 新增
      * @param course
      */
-    private void insert(Course course) {
+    public void insert(Course course) {
             Date now = new Date();
                     course.setCreatedAt(now);
                     course.setUpdatedAt(now);
