@@ -1,7 +1,14 @@
 <template>
   <!-- PAGE CONTENT BEGINS -->
   <div>
+    <h3>{{course.name}}</h3>
     <p>
+      <!--返回按钮-->
+      <router-link to="/business/course" class="btn btn-white btn-default btn-round">
+        <i class="ace-icon fa fa-arrow-left"></i>
+        返回课程
+      </router-link>
+      &nbsp;
       <!--新增按钮-->
       <button v-on:click="add()" class="btn btn-white btn-default btn-round">
 
@@ -134,13 +141,19 @@ export default {
   data: function () {
     return {
       chapter: {},
-      chapters: []
+      chapters: [],
+      course: {},
     }
   },
   mounted: function () {
     let _this = this;
     _this.$refs.pagination.size = 5;
-    _this.list();
+    let course = SessionStorage.get("course") || {};
+    if (Tool.isEmpty(course)) {
+      _this.$router.push("/welcome");
+    }
+    _this.course = course;
+    _this.list(1);
     //激活样式之一
     // this.$parent.activeSidebar("business-chapter-sidebar");
 
@@ -194,9 +207,8 @@ export default {
       let _this = this;
 
       if (!Validator.require(_this.chapter.name, "名称")
-        ||!Validator.require(_this.chapter.courseId, "课程Id")
-      || !Validator.length(_this.chapter.courseId, "课程Id", 1, 8))
-      {
+          || !Validator.require(_this.chapter.courseId, "课程Id")
+          || !Validator.length(_this.chapter.courseId, "课程Id", 1, 8)) {
         return;
       }
 
@@ -211,7 +223,7 @@ export default {
           _this.list(1);
           Toast.success("新增成功！");
 
-        }else {
+        } else {
           Toast.warning(resp.message);
         }
       })
