@@ -51,6 +51,7 @@ public class FileService {
     public void save(FileDto fileDto) {
         File file = CopyUtil.copy(fileDto, File.class);
         if (StringUtils.isEmpty(fileDto.getId())) {
+            System.out.println("insert增加");
             this.insert(file);
         } else {
             this.update(file);
@@ -69,7 +70,7 @@ public class FileService {
                     file.setCreatedAt(now);
                     file.setUpdatedAt(now);
         file.setId(UuidUtil.getShortUuid());
-
+        System.out.println("调用mapper方法");
         fileMapper.insert(file);
 
     }
