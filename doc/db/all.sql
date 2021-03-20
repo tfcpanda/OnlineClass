@@ -17,17 +17,6 @@ create table course (
                         primary key (id)
 ) engine=innodb default charset=utf8mb4 comment='课程';
 
-update section set title = ?, course_id = ?, chapter_id = ?, video = ?, time = ?, charge = ?, sort = ?, created_at = ?, updated_at = ? where id = ?;
-insert into course (id, name, summary,
-                    time, price, image,
-                    level, charge, status, enroll,
-                    sort, created_at, updated_at
-)
-values (#{id,jdbcType=CHAR}, #{name,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR},
-           #{time,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{image,jdbcType=VARCHAR},
-           #{level,jdbcType=CHAR}, #{charge,jdbcType=CHAR}, #{status,jdbcType=CHAR}, #{enroll,jdbcType=INTEGER},
-           #{sort,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
-       )
 
 
 insert into course (id, name, summary, time, price, image, level, charge, status, enroll, sort, created_at, updated_at)
