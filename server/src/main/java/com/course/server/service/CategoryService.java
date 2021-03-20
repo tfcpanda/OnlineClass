@@ -45,6 +45,19 @@ public class CategoryService {
     }
 
     /**
+     * 列表查询ALL
+     * @param 返回全部
+     */
+    public  List<CategoryDto> all(){
+        CategoryExample categoryExample = new CategoryExample();
+        categoryExample.setOrderByClause("sort asc");
+        List<Category> categoryList = categoryMapper.selectByExample(categoryExample);
+        List<CategoryDto> categoryDtoList = CopyUtil.copyList(categoryList, CategoryDto.class);
+        return categoryDtoList;
+
+    }
+
+    /**
      *保存
      * @param categoryDto
      */
