@@ -420,6 +420,14 @@
 
                 <b class="arrow"></b>
               </li>
+              <li class="active open" id="business-teacher-sidebar">
+                <router-link to="/business/teacher">
+                  <i class="menu-icon fa fa-caret-right"></i>
+                  讲师管理
+                </router-link>
+
+                <b class="arrow"></b>
+              </li>
 
 <!--              <li class="active open" id="business-chapter-sidebar">-->
 <!--                <router-link to="/business/chapter">-->
