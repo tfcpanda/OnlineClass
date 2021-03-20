@@ -160,7 +160,7 @@ export default {
     _this.course = course;
     _this.list(1);
     //激活样式之一
-    // this.$parent.activeSidebar("business-chapter-sidebar");
+     this.$parent.activeSidebar("business-chapter-sidebar");
 
   },
   methods: {
@@ -172,6 +172,8 @@ export default {
       _this.chapter = {};
       $("#form-modal").modal("show");
     },
+
+
 
     /**
      * 编辑方法
