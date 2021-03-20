@@ -1,8 +1,8 @@
 package com.course.business.controller.admin;
 
-import com.course.server.dto.SectionDto;
-import com.course.server.dto.PageDto;
 import com.course.server.dto.ResponseDto;
+import com.course.server.dto.SectionDto;
+import com.course.server.dto.SectionPageDto;
 import com.course.server.service.SectionService;
 import com.course.server.util.ValidatorUtil;
 import org.slf4j.Logger;
@@ -23,15 +23,19 @@ public class SectionController {
 
     /**
      * 列表查询
-     * @param pageDto
+     * @param sectionPageDto
      * @return
      */
     @PostMapping("/list")
-    public ResponseDto list(@RequestBody PageDto pageDto) {
-        LOG.info("PageDto:{}", pageDto);
+    public ResponseDto list(@RequestBody SectionPageDto sectionPageDto) {
+        LOG.info("PageDto:{}", sectionPageDto);
         ResponseDto responseDto = new ResponseDto();
-        sectionService.list(pageDto);
-        responseDto.setContent(pageDto);
+
+        ValidatorUtil.require(sectionPageDto.getCourseId(),"课程ID");
+        ValidatorUtil.require(sectionPageDto.getChapterId(), "大章ID");
+
+        sectionService.list(sectionPageDto);
+        responseDto.setContent(sectionPageDto);
         return responseDto;
     }
 

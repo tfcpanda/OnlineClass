@@ -1,5 +1,12 @@
 <template>
     <div>
+      <h4 class="lighter">
+        <i class="ace-icon fa fa-hand-o-right icon-animated-hand-pointer blue"></i>
+        <router-link to="/business/course" class="pink"> {{course.name}} </router-link>：
+        <i class="ace-icon fa fa-hand-o-right icon-animated-hand-pointer blue"></i>
+        <router-link to="/business/chapter" class="pink"> {{chapter.name}} </router-link>
+      </h4>
+      <hr>
         <p>
             <button v-on:click="add()" class="btn btn-white btn-default btn-round">
                 <i class="ace-icon fa fa-edit"></i>
@@ -13,88 +20,86 @@
         </p>
 
         <pagination ref="pagination" v-bind:list="list" v-bind:itemCount="8"></pagination>
-      <div class="row">
-        <div v-for="course in courses" class="col-md-4">
-          <div class="thumbnail search-thumbnail">
-            <img v-show="!course.image" class="media-object" src="/static/image/demo-course.jpg" />
-            <img v-show="course.image" class="media-object" v-bind:src="course.image" />
-            <div class="caption">
-              <div class="clearfix">
-              <span class="pull-right label label-primary info-label">
-                {{COURSE_LEVEL | optionKV(course.level)}}
-              </span>
-                <span class="pull-right label label-primary info-label">
-                {{COURSE_CHARGE | optionKV(course.charge)}}
-              </span>
-                <span class="pull-right label label-primary info-label">
-                {{COURSE_STATUS | optionKV(course.status)}}
-              </span>
-              </div>
+<!--      <div class="row">-->
+<!--        <div v-for="course in courses" class="col-md-4">-->
+<!--          <div class="thumbnail search-thumbnail">-->
+<!--            <img v-show="!course.image" class="media-object" src="/static/image/demo-course.jpg" />-->
+<!--            <img v-show="course.image" class="media-object" v-bind:src="course.image" />-->
+<!--            <div class="caption">-->
+<!--              <div class="clearfix">-->
+<!--              <span class="pull-right label label-primary info-label">-->
+<!--                {{COURSE_LEVEL | optionKV(course.level)}}-->
+<!--              </span>-->
+<!--                <span class="pull-right label label-primary info-label">-->
+<!--                {{COURSE_CHARGE | optionKV(course.charge)}}-->
+<!--              </span>-->
+<!--                <span class="pull-right label label-primary info-label">-->
+<!--                {{COURSE_STATUS | optionKV(course.status)}}-->
+<!--              </span>-->
+<!--              </div>-->
 
-              <h3 class="search-title">
-                <a href="#" class="blue">{{course.name}}</a>
-              </h3>
-              <p>
-                <span class="blue bolder bigger-150">{{course.price}}&nbsp;<i class="fa fa-rmb"></i></span>&nbsp;
-              </p>
-              <p>{{course.summary}}</p>
-              <p>
-                <span class="badge badge-info">{{course.id}}</span>
-                <span class="badge badge-info">排序：{{course.sort}}</span>
-                <span class="badge badge-info">时长：{{course.time}}</span>
-              </p>
-              <p>
-                <button v-on:click="edit(course)" class="btn btn-white btn-xs btn-info btn-round">
-                  编辑
-                </button>&nbsp;
-                <button v-on:click="del(course.id)" class="btn btn-white btn-xs btn-warning btn-round">
-                  删除
-                </button>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-<!--        <table id="simple-table" class="table  table-bordered table-hover">-->
-<!--            <thead>-->
-<!--            <tr>-->
-<!--                    <th>id</th>-->
-<!--                    <th>标题</th>-->
-<!--                    <th>课程</th>-->
-<!--                    <th>大章</th>-->
-<!--                    <th>视频</th>-->
-<!--                    <th>时长</th>-->
-<!--                    <th>收费</th>-->
-<!--                    <th>顺序</th>-->
+<!--              <h3 class="search-title">-->
+<!--                <a href="#" class="blue">{{course.name}}</a>-->
+<!--              </h3>-->
+<!--              <p>-->
+<!--                <span class="blue bolder bigger-150">{{course.price}}&nbsp;<i class="fa fa-rmb"></i></span>&nbsp;-->
+<!--              </p>-->
+<!--              <p>{{course.summary}}</p>-->
+<!--              <p>-->
+<!--                <span class="badge badge-info">{{course.id}}</span>-->
+<!--                <span class="badge badge-info">排序：{{course.sort}}</span>-->
+<!--                <span class="badge badge-info">时长：{{course.time}}</span>-->
+<!--              </p>-->
+<!--              <p>-->
+<!--                <button v-on:click="edit(course)" class="btn btn-white btn-xs btn-info btn-round">-->
+<!--                  编辑-->
+<!--                </button>&nbsp;-->
+<!--                <button v-on:click="del(course.id)" class="btn btn-white btn-xs btn-warning btn-round">-->
+<!--                  删除-->
+<!--                </button>-->
+<!--              </p>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
 
-<!--                <th>操作</th>-->
-<!--            </tr>-->
-<!--            </thead>-->
+        <table id="simple-table" class="table  table-bordered table-hover">
+            <thead>
+            <tr>
+                    <th>id</th>
+                    <th>标题</th>
+                     <th>视频</th>
 
-<!--            <tbody>-->
-<!--            <tr v-for="section in sections">-->
-<!--                    <td>{{section.id}}</td>-->
-<!--                    <td>{{section.title}}</td>-->
-<!--                    <td>{{section.courseId}}</td>-->
-<!--                    <td>{{section.chapterId}}</td>-->
-<!--                    <td>{{section.video}}</td>-->
-<!--                    <td>{{section.time}}</td>-->
-<!--                    <td>{{SECTION_CHARGE | optionKV(section.charge)}}</td>-->
-<!--                    <td>{{section.sort}}</td>-->
+                    <th>时长</th>
+                    <th>收费</th>
+                    <th>顺序</th>
 
-<!--                <td>-->
-<!--                    <div class="hidden-sm hidden-xs btn-group">-->
-<!--                        <button v-on:click="edit(section)" class="btn btn-xs btn-info">-->
-<!--                            <i class="ace-icon fa fa-pencil bigger-120"></i>-->
-<!--                        </button>-->
-<!--                        <button v-on:click="del(section.id)" class="btn btn-xs btn-danger">-->
-<!--                            <i class="ace-icon fa fa-trash-o bigger-120"></i>-->
-<!--                        </button>-->
-<!--                    </div>-->
-<!--                </td>-->
-<!--            </tr>-->
-<!--            </tbody>-->
-<!--        </table>-->
+                <th>操作</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr v-for="section in sections">
+                    <td>{{section.id}}</td>
+                    <td>{{section.title}}</td>
+                    <td>{{section.video}}</td>
+                    <td>{{section.time}}</td>
+                    <td>{{SECTION_CHARGE | optionKV(section.charge)}}</td>
+                    <td>{{section.sort}}</td>
+
+                <td>
+                    <div class="hidden-sm hidden-xs btn-group">
+                        <button v-on:click="edit(section)" class="btn btn-xs btn-info">
+                            <i class="ace-icon fa fa-pencil bigger-120"></i>
+                        </button>
+                        <button v-on:click="del(section.id)" class="btn btn-xs btn-danger">
+                            <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
 
         <div id="form-modal" class="modal fade" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
@@ -115,13 +120,13 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">课程</label>
                                     <div class="col-sm-10">
-                                        <input v-model="section.courseId" class="form-control">
+                                        <input v-model="section.name" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">大章</label>
                                     <div class="col-sm-10">
-                                        <input v-model="section.chapterId" class="form-control">
+                                        <input v-model="chapter.name" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -173,11 +178,21 @@
                 section: {},
                 sections: [],
               SECTION_CHARGE: SECTION_CHARGE,
+              course:{},
+              chapter:{},
             }
         },
         mounted: function() {
             let _this = this;
             _this.$refs.pagination.size = 5;
+            let course = SessionStorage.get("course")||{};
+            let chapter = SessionStorage.get("chapter")||{};
+            if (Tool.isEmpty(course)||Tool.isEmpty(chapter)){
+              //如果都没有则汇到welcome
+              _this.$router.push("/welcome")
+            }
+            _this.course = course;
+            _this.chapter = chapter;
             _this.list(1);
             // sidebar激活样式方法一
             // this.$parent.activeSidebar("business-section-sidebar");
@@ -211,6 +226,8 @@
                 _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/section/list', {
                     page: page,
                     size: _this.$refs.pagination.size,
+                    courseId:_this.course.id,
+                  chapterId:_this.chapter.id
                 }).then((response)=>{
                     Loading.hide();
                     let resp = response.data;
@@ -235,6 +252,8 @@
                 ) {
                     return;
                 }
+              _this.section.courseId = _this.course.id;
+              _this.section.chapterId = _this.chapter.id;
 
                 Loading.show();
                 _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/section/save', _this.section).then((response)=>{
