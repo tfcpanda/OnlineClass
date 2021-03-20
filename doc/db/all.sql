@@ -167,6 +167,10 @@ create table `teacher` (
                            primary key (`id`)
 ) engine=innodb default charset=utf8mb4 comment='讲师';
 
+
+
+
+
 -- 文件
 drop table if exists `file`;
 create table `file` (
