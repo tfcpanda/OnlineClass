@@ -186,18 +186,7 @@
                   <input v-model="course.sort" class="form-control">
                 </div>
               </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">创建时间</label>
-                <div class="col-sm-10">
-                  <input v-model="course.createdAt" class="form-control">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">修改时间</label>
-                <div class="col-sm-10">
-                  <input v-model="course.updatedAt" class="form-control">
-                </div>
-              </div>
+
             </form>
           </div>
           <div class="modal-footer">
