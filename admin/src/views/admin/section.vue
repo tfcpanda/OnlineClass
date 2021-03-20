@@ -185,8 +185,8 @@
         mounted: function() {
             let _this = this;
             _this.$refs.pagination.size = 5;
-            let course = SessionStorage.get("course")||{};
-            let chapter = SessionStorage.get("chapter")||{};
+            let course = SessionStorage.get(SESSION_KEY_COURSE)||{};
+            let chapter = SessionStorage.get(SESSION_KEY_CHAPTER)||{};
             if (Tool.isEmpty(course)||Tool.isEmpty(chapter)){
               //如果都没有则汇到welcome
               _this.$router.push("/welcome")
