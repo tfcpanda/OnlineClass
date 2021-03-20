@@ -5,7 +5,7 @@
         <p>
           <button v-on:click="add()" class="btn btn-white btn-default btn-round">
             <i class="ace-icon fa fa-edit"></i>
-            新增
+            新增一级分类
           </button>
           &nbsp;
           <button v-on:click="all()" class="btn btn-white btn-default btn-round">
@@ -47,7 +47,7 @@
         <p>
           <button v-on:click="add()" class="btn btn-white btn-default btn-round">
             <i class="ace-icon fa fa-edit"></i>
-            新增
+            新增二级分类
           </button>
         </p>
 
