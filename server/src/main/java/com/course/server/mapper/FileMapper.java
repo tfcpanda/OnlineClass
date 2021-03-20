@@ -2,8 +2,9 @@ package com.course.server.mapper;
 
 import com.course.server.domain.File;
 import com.course.server.domain.FileExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface FileMapper {
     long countByExample(FileExample example);
@@ -12,7 +13,7 @@ public interface FileMapper {
 
     int deleteByPrimaryKey(String id);
 
-    int insert(File record);
+    int  insert(File record);
 
     int insertSelective(File record);
 
