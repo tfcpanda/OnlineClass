@@ -112,6 +112,18 @@ export default {
   },
   methods: {
     login() {
+      // let _this = this;
+      // _this.user.password = hex_md5(_this.user.password + KEY);
+      // Loading.show();
+      // _this.$ajax.post(process.env.VUE_APP_SERVER + '/system/admin/user/login', _this.user).then((response) => {
+      //   Loading.hide();
+      //   let resp = response.data;
+      //   if (resp.success) {
+      //     console.log(resp.content());
+      //     _this.$router.push("/welcome")
+      //   } else {
+      //     Toast.warning(resp.message);
+      //   }
       let _this = this;
 
       _this.user.password = hex_md5(_this.user.password + KEY);
@@ -120,7 +132,8 @@ export default {
         Loading.hide();
         let resp = response.data;
         if (resp.success) {
-          console.log(resp.content);
+          console.log("登录成功：",resp.content);
+          Tool.setLoginUser(resp.content);
           _this.$router.push("/welcome")
         } else {
           Toast.warning(resp.message)

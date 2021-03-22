@@ -277,7 +277,7 @@
                 <img class="nav-user-photo" src="assets/avatars/user.jpg" alt="Jason's Photo"/>
                 <span class="user-info">
 									<small>Welcome,</small>
-									Jason
+									替换
 								</span>
 
                 <i class="ace-icon fa fa-caret-down"></i>
@@ -353,7 +353,7 @@
           <li class="" id="welcome-sidebar">
             <router-link to="/welcome">
               <i class="menu-icon fa fa-tachometer"></i>
-              <span class="menu-text"> 欢迎 </span>
+              <span class="menu-text"> 欢迎：{{loginUser.name}} </span>
             </router-link>
 
             <b class="arrow"></b>
@@ -609,13 +609,18 @@
 export default {
 
   name: "admin",
+  data: function() {
+    return {
+      loginUser: {},
+    }
+  },
   mounted: function () {
     let _this = this;
     $("body").attr("class", "no-skin");
     $("body").remove("login-layout light-login");
     _this.activeSidebar(_this.$route.name.replace("/", "-") + "-sidebar");
     $.getScript('/ace/assets/js/ace.min.js');
-
+    _this.loginUser = Tool.getLoginUser();
   },
   watch: {
     $route: {
