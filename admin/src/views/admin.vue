@@ -373,11 +373,10 @@
 
 
               <li class="">
-                <a href="typography.html">
+                <router-link to = "/business/user">
                   <i class="menu-icon fa fa-caret-right"></i>
                   用户管理
-                </a>
-
+                </router-link>
                 <b class="arrow"></b>
               </li>
 
