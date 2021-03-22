@@ -372,7 +372,7 @@
             <ul class="submenu">
 
 
-              <li class="">
+              <li class="" id="system-user-sidebar">
                 <router-link to = "/business/user">
                   <i class="menu-icon fa fa-caret-right"></i>
                   用户管理
@@ -467,7 +467,7 @@
             <ul class="submenu">
 
 
-              <li class="">
+              <li class="file-file-sidebar">
                 <router-link to="/business/file">
                   <i class="menu-icon fa fa-caret-right"></i>
                   文件管理
@@ -647,6 +647,7 @@ export default {
       let parentLi = $("#" + id).parents("li");
       if (parentLi) {
         parentLi.siblings().removeClass("open active");
+        parentLi.siblings().find("li").removeClass("active");
         parentLi.addClass("open active");
       }
 
