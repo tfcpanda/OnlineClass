@@ -6,6 +6,7 @@ package com.course.server.ecxeption;
  */
 public enum BusinessExceptionCode {
     USER_LOGIN_NAME_EXIST("登录名已存在"),
+    LOGIN_ERROR("账号或密码不存在"),
             ;
 
     private String desc;
