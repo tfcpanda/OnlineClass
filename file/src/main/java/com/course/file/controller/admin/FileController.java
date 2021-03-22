@@ -1,14 +1,12 @@
 package com.course.file.controller.admin;
 
+import com.course.server.dto.FileDto;
 import com.course.server.dto.PageDto;
 import com.course.server.dto.ResponseDto;
 import com.course.server.service.FileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -33,6 +31,15 @@ public class FileController {
         ResponseDto responseDto = new ResponseDto();
         fileService.list(pageDto);
         responseDto.setContent(pageDto);
+        return responseDto;
+    }
+
+    @GetMapping("/check/{key}")
+    public ResponseDto check(@PathVariable String key) {
+        LOG.info("检查上传分片开始：{}", key);
+        ResponseDto responseDto = new ResponseDto();
+        FileDto fileDto = fileService.findByKey(key);
+        responseDto.setContent(fileDto);
         return responseDto;
     }
 
