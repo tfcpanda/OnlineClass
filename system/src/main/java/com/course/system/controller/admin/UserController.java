@@ -7,6 +7,7 @@ import com.course.server.service.UserService;
 import com.course.server.util.ValidatorUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -23,6 +24,7 @@ public class UserController {
 
     /**
      * 列表查询
+     *
      * @param pageDto
      * @return
      */
@@ -36,34 +38,30 @@ public class UserController {
     }
 
     /**
-     *保存id，id有值的时候更新，没有值的时候增加
+     * 保存id，id有值的时候更新，没有值的时候增加
+     *
      * @param userDto
      * @return
      */
     @PostMapping("/save")
     public ResponseDto save(@RequestBody UserDto userDto) {
+
+        userDto.setPassword(DigestUtils.md5DigestAsHex(userDto.getPassword().getBytes()));
         ResponseDto responseDto = new ResponseDto();
 
         //后端校验填入信息
-
-
-            ValidatorUtil.require(userDto.getLoginName(), "登陆名");
-            ValidatorUtil.length(userDto.getLoginName(), "登陆名", 1, 50);
-
-
-            ValidatorUtil.length(userDto.getName(), "昵称", 1, 50);
-
-
-            ValidatorUtil.require(userDto.getPassword(), "密码");
-
-
+        ValidatorUtil.require(userDto.getLoginName(), "登陆名");
+        ValidatorUtil.length(userDto.getLoginName(), "登陆名", 1, 50);
+        ValidatorUtil.length(userDto.getName(), "昵称", 1, 50);
+        ValidatorUtil.require(userDto.getPassword(), "密码");
         userService.save(userDto);
         responseDto.setContent(userDto);
         return responseDto;
     }
 
     /**
-     *删除
+     * 删除
+     *
      * @param id
      * @return
      */
