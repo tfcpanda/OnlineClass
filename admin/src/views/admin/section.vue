@@ -278,12 +278,13 @@ export default {
     save(page) {
       let _this = this;
 
+      _this.section.video = "";
+
       // 保存校验
       if (1 != 1
-
           || !Validator.require(_this.section.title, "标题")
           || !Validator.length(_this.section.title, "标题", 1, 50)
-          || !Validator.length(_this.section.video, "视频", 1, 200)
+          // || !Validator.length(_this.section.length, "视频", 1, 200)
       ) {
         return;
       }
@@ -324,7 +325,9 @@ export default {
     afterUpload(resp) {
       let _this = this;
       let video = resp.content.path;
+      let vod = resp.content.vod;
       _this.section.video = video;
+      _this.section.vod = vod;
       _this.getTime();
     },
     /**
@@ -334,8 +337,10 @@ export default {
       let _this = this;
       setTimeout(function (){
         let ele = document.getElementById("video");
+        console.log(_this.section.time);
+
         _this.section.time = parseInt(ele.duration, 10);
-      },100);
+      },1000);
 
     },
   }
