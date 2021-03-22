@@ -137,20 +137,18 @@
                 <label class="col-sm-2 control-label">视频</label>
                 <div class="col-sm-10">
                   <vod v-bind:input-id="'video-upload'"
-                            v-bind:text="'上传vod'"
-                            v-bind:suffixs="['mp4']"
-                            v-bind:use="FILE_USE.COURSE.key"
-                            v-bind:after-upload="afterUpload"></vod>
+                       v-bind:text="'上传vod'"
+                       v-bind:suffixs="['mp4']"
+                       v-bind:use="FILE_USE.COURSE.key"
+                       v-bind:after-upload="afterUpload"></vod>
                   <div v-show="section.video" class="row">
                     <div class="col-md-9">
-                      <video v-bind:src="section.video" id="video" controls="controls"></video>
+                      <player ref="player"></player>
+                      <video v-bind:src="section.video" id="video" controls="controls" class="hidden"></video>
                     </div>
                   </div>
                 </div>
               </div>
-
-
-
 
 
               <div class="form-group">
@@ -204,8 +202,10 @@
 import Pagination from "../../components/pagination";
 
 import Vod from "../../components/vod";
+import Player from "../../components/player"
+
 export default {
-  components: {Pagination, Vod},
+  components: {Pagination, Vod, Player},
   name: "business-section",
   data: function () {
     return {
@@ -230,7 +230,7 @@ export default {
     _this.chapter = chapter;
     _this.list(1);
     // sidebar激活样式方法一
-     this.$parent.activeSidebar("business-course-sidebar");
+    this.$parent.activeSidebar("business-course-sidebar");
 
   },
   methods: {
@@ -329,18 +329,19 @@ export default {
       _this.section.video = video;
       _this.section.vod = vod;
       _this.getTime();
+      _this.$refs.player.playUrl(video);
     },
     /**
      * 获取时长
      */
     getTime() {
       let _this = this;
-      setTimeout(function (){
+      setTimeout(function () {
         let ele = document.getElementById("video");
         console.log(_this.section.time);
 
         _this.section.time = parseInt(ele.duration, 10);
-      },1000);
+      }, 1000);
 
     },
   }
