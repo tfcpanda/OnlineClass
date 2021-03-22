@@ -79,7 +79,8 @@ export default {
       }
 
       // 文件分片
-      let shardSize = 5 * 1024 * 1024;    //以20MB为一个分片
+      let shardSize = 50 * 1024;    //以20MB为一个分片
+      // let shardSize = 5 * 1024 * 1024;    //以20MB为一个分片
       let shardIndex = 1;		//分片索引
       let start = (shardIndex - 1) * shardSize;	//当前分片起始位置
       let end = Math.min(file.size, start + shardSize); //当前分片结束位置
@@ -153,7 +154,7 @@ export default {
         param.shard = base64;
 
 
-        _this.$ajax.post(process.env.VUE_APP_SERVER + '/file/admin/upload', param).then((response) => {
+        _this.$ajax.post(process.env.VUE_APP_SERVER + '/file/admin/oss-append', param).then((response) => {
           let resp = response.data;
           console.log("上传文件成功：", resp);
           Progress.show(parseInt(shardIndex * 100 / shardTotal));
