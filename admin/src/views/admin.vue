@@ -383,7 +383,15 @@
               <li class="">
                 <router-link to = "/business/resource">
                   <i class="menu-icon fa fa-caret-right"></i>
-                  权限管理
+                  资源管理
+                </router-link>
+
+                <b class="arrow"></b>
+              </li>
+              <li class="">
+                <router-link to = "/business/role">
+                  <i class="menu-icon fa fa-caret-right"></i>
+                  角色管理
                 </router-link>
 
                 <b class="arrow"></b>
