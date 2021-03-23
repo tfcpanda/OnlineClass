@@ -6,6 +6,7 @@ import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
@@ -13,20 +14,16 @@ import reactor.core.publisher.Mono;
  * @author 田付成
  * @date 2021/3/23 20:05
  */
+@Component
 public class LoginAdminGatewayFilter implements GatewayFilter, Ordered {
     private static final Logger LOG = LoggerFactory.getLogger(LoginAdminGatewayFilter.class);
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         //获取header的token参数
-        String token = exchange.getRequest().getHeaders().getFirst("token");
+
 //        LOG.info("登录拦截开始，token：{}", token);
 //        return chain.filter(exchange);
-
-
-
-
-
 
 
         // 请求地址中不包含/admin/的，不是控台请求，不需要拦截
@@ -41,6 +38,7 @@ public class LoginAdminGatewayFilter implements GatewayFilter, Ordered {
             return chain.filter(exchange);
         }
 
+        String token = exchange.getRequest().getHeaders().getFirst("token");
         LOG.info("控台登录验证开始，token：{}", token);
         if (token == null || token.isEmpty()) {
             LOG.info( "token为空，请求被拦截" );
