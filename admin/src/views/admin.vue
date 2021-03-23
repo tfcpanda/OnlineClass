@@ -381,10 +381,10 @@
               </li>
 
               <li class="">
-                <a href="elements.html">
+                <router-link to = "/business/resource">
                   <i class="menu-icon fa fa-caret-right"></i>
                   权限管理
-                </a>
+                </router-link>
 
                 <b class="arrow"></b>
               </li>
