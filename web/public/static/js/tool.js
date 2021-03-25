@@ -88,15 +88,15 @@ Tool = {
   /**
    * 保存登录用户信息
    */
-  setLoginMember: function (loginMember) {
-    SessionStorage.set(SESSION_KEY_LOGIN_MEMBER, loginMember);
+  setLoginUser: function (loginUser) {
+    SessionStorage.set(SESSION_KEY_LOGIN_USER, loginUser);
   },
 
   /**
    * 获取登录用户信息
    */
-  getLoginMember: function () {
-    return SessionStorage.get(SESSION_KEY_LOGIN_MEMBER) || {};
+  getLoginUser: function () {
+    return SessionStorage.get(SESSION_KEY_LOGIN_USER) || {};
   },
 
   /**
@@ -118,22 +118,20 @@ Tool = {
   },
 
   /**
-   * 对象数组按key对应的值排序
-   * @param array
-   * @param key
-   * @returns {*}
+   * 查找是否有权限
+   * @param id 资源id
    */
-  sortAsc: function (array, key) {
-    return array.sort(function (obj1, obj2) {
-      let val1 = obj1[key];
-      let val2 = obj2[key];
-      if (val1 < val2) {
-        return -1;
-      } else if (val1 > val2) {
-        return 1;
-      } else {
-        return 0;
+  hasResource: function (id) {
+    let _this = this;
+    let resources = _this.getLoginUser().resources;
+    if (_this.isEmpty(resources)) {
+      return false;
+    }
+    for (let i = 0; i < resources.length; i++) {
+      if (id === resources[i].id) {
+        return true;
       }
-    });
+    }
+    return false;
   }
 };

@@ -34,12 +34,16 @@ export default {
   data: function () {
     return {
       courses: [],
+      level1: [],
+      level2: [],
     }
   },
   mounted() {
     let _this = this;
     _this.$refs.pagination.size = 5;
     _this.listCourse(1);
+    _this.allCategory();
+
   },
   methods: {
     /**
@@ -61,26 +65,41 @@ export default {
         console.log("error：", response);
       })
     },
+    /**
+     * 所有分类查询
+     */
+    allCategory() {
+      let _this = this;
+      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/web/category/all').then((response) => {
+        let resp = response.data;
+        let categorys = resp.content;
+
+        // 将所有记录格式化成树形结构
+        _this.level1 = [];
+        for (let i = 0; i < categorys.length; i++) {
+          let c = categorys[i];
+          if (c.parent === '00000000') {
+            _this.level1.push(c);
+            for (let j = 0; j < categorys.length; j++) {
+              let child = categorys[j];
+              if (child.parent === c.id) {
+                if (Tool.isEmpty(c.children)) {
+                  c.children = [];
+                }
+                c.children.push(child);
+              }
+            }
+          }
+        }
+
+        _this.level2 = [];
+      })
+    },
   }
 }
 </script>
 
 <style>
-.title1 {
-  margin-bottom: 2rem;
-  color: #fafafa;
-  letter-spacing: 0;
-  text-shadow: 0px 1px 0px #999, 0px 2px 0px #888, 0px 3px 0px #777, 0px 4px 0px #666, 0px 5px 0px #555, 0px 6px 0px #444, 0px 7px 0px #333, 0px 8px 7px #001135;
-  font-size: 2rem;
-}
-
-.title2 {
-  margin-bottom: 2rem;
-  color: transparent;
-  -webkit-text-stroke: 1px black;
-  letter-spacing: 0.04em;
-  font-size: 2rem;
-}
 
 
 </style>
