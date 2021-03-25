@@ -353,7 +353,7 @@
           <li class="" id="welcome-sidebar">
             <router-link to="/welcome">
               <i class="menu-icon fa fa-tachometer"></i>
-              <span class="menu-text"> 欢迎：{{loginUser.name}} </span>
+              <span class="menu-text"> 欢迎：{{ loginUser.name }} </span>
             </router-link>
 
             <b class="arrow"></b>
@@ -372,8 +372,8 @@
             <ul class="submenu">
 
 
-              <li  v-show="hasResource('0101')" class="" id="system-user-sidebar">
-                <router-link to = "/business/user">
+              <li v-show="hasResource('0101')" class="" id="system-user-sidebar">
+                <router-link to="/business/user">
                   <i class="menu-icon fa fa-caret-right"></i>
                   用户管理
                 </router-link>
@@ -381,7 +381,7 @@
               </li>
 
               <li v-show="hasResource('0102')" class="">
-                <router-link to = "/business/resource">
+                <router-link to="/business/resource">
                   <i class="menu-icon fa fa-caret-right"></i>
                   资源管理
                 </router-link>
@@ -389,7 +389,7 @@
                 <b class="arrow"></b>
               </li>
               <li v-show="hasResource('0103')" class="">
-                <router-link to = "/business/role">
+                <router-link to="/business/role">
                   <i class="menu-icon fa fa-caret-right"></i>
                   角色管理
                 </router-link>
@@ -427,6 +427,8 @@
 
                 <b class="arrow"></b>
               </li>
+
+
               <li v-show="hasResource('0203')" class="active open" id="business-teacher-sidebar">
                 <router-link to="/business/teacher">
                   <i class="menu-icon fa fa-caret-right"></i>
@@ -436,29 +438,24 @@
                 <b class="arrow"></b>
               </li>
 
+              <li v-show="hasResource('0204')" class="active open" id="business-member-sidebar">
+                <router-link to="/business/member">
+                  <i class="menu-icon fa fa-caret-right"></i>
+                  会员管理
+                </router-link>
 
-<!--              //文件管理-->
+                <b class="arrow"></b>
+              </li>
 
 
-<!--              <li class="active open" id="business-chapter-sidebar">-->
-<!--                <router-link to="/business/chapter">-->
+<!--              <li v-show="hasResource('0204')" class="active open" id="business-member-sidebar">-->
+<!--                <router-link to="/business/member">-->
 <!--                  <i class="menu-icon fa fa-caret-right"></i>-->
-<!--                  大章管理-->
+<!--                  会员管理-->
 <!--                </router-link>-->
 
 <!--                <b class="arrow"></b>-->
 <!--              </li>-->
-
-<!--              <li class="active open" id="business-section-sidebar">-->
-<!--                <router-link to="/business/section">-->
-<!--                  <i class="menu-icon fa fa-caret-right"></i>-->
-<!--                  小节管理-->
-<!--                </router-link>-->
-
-<!--                <b class="arrow"></b>-->
-<!--              </li>-->
-
-
             </ul>
           </li>
 
@@ -617,7 +614,7 @@
 export default {
 
   name: "admin",
-  data: function() {
+  data: function () {
     return {
       loginUser: {},
     }
@@ -635,7 +632,7 @@ export default {
     // }
 
     let test = Tool.getLoginUser();
-    console.log("内容",test);
+    console.log("内容", test);
   },
   watch: {
     $route: {
@@ -676,7 +673,6 @@ export default {
     // },
 
 
-
     /**
      * 查找是否有权限
      * @param id
@@ -707,10 +703,10 @@ export default {
       }
 
     },
-    logout () {
+    logout() {
       let _this = this;
       Loading.show();
-      _this.$ajax.get(process.env.VUE_APP_SERVER + '/system/admin/user/logout').then((response)=>{
+      _this.$ajax.get(process.env.VUE_APP_SERVER + '/system/admin/user/logout').then((response) => {
         Loading.hide();
         let resp = response.data;
         if (resp.success) {
