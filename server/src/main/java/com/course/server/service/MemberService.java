@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 
@@ -24,6 +25,7 @@ public class MemberService {
 
     /**
      * 列表查询
+     *
      * @param pageDto
      */
     public void list(PageDto pageDto) {
@@ -45,7 +47,8 @@ public class MemberService {
     }
 
     /**
-     *保存
+     * 保存
+     *
      * @param memberDto
      */
     public void save(MemberDto memberDto) {
@@ -60,11 +63,14 @@ public class MemberService {
 
     /**
      * 新增
+     *
      * @param member
      */
     private void insert(Member member) {
+        Date now = new Date();
 
         member.setId(UuidUtil.getShortUuid());
+        member.setRegisterTime(now);
 
         memberMapper.insert(member);
 
@@ -73,6 +79,7 @@ public class MemberService {
 
     /**
      * 更新
+     *
      * @param member
      */
     private void update(Member member) {
@@ -82,6 +89,7 @@ public class MemberService {
 
     /**
      * 根据ID删除
+     *
      * @param id
      */
     public void delete(String id) {
