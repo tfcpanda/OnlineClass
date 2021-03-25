@@ -1,21 +1,16 @@
 <template>
   <div>
     <main role="main">
-
-      <section class="jumbotron text-center">
-        <div class="container">
-          <h1>在线客车</h1>
-          <p class="lead text-muted">在线教育平台的编写</p>
-
-        </div>
-      </section>
-
       <div class="album py-5 bg-light">
         <div class="container">
-          <h1>课程还未上线</h1>
+          <div class="row">
+            <div v-for="o in courses" class="col-md-4">
+              <the-course v-bind:course="o"></the-course>
+            </div>
+            <h3 v-show="courses.length === 0">课程还未上架</h3>
+          </div>
         </div>
       </div>
-
     </main>
   </div>
 
@@ -30,24 +25,26 @@ export default {
   components: {TheCourse},
   data: function () {
     return {
-      news: [],
+      courses: [],
     }
   },
   mounted() {
     let _this = this;
-    _this.listNew();
+    _this.listCourse(1);
   },
   methods: {
     /**
-     * 查询新上好课
+     * 查询课程列表
      */
-    listNew() {
+    listCourse(page) {
       let _this = this;
-      _this.$ajax.get(process.env.VUE_APP_SERVER + '/business/web/course/list-new').then((response) => {
-        console.log("查询新上好课结果：", response);
+      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/web/course/list', {
+        page: page,
+        size: 3,
+      }).then((response) => {
         let resp = response.data;
         if (resp.success) {
-          _this.news = resp.content;
+          _this.courses = resp.content.list;
         }
       }).catch((response) => {
         console.log("error：", response);
