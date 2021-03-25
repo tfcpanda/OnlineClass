@@ -22,7 +22,7 @@ public class MemberController {
     public static final String BUSINESS_NAME = "会员";
 
     @Resource
-    private MemberService memberService;
+    private MemberService memberService; 
 
     /**
      * 保存，id有值时更新，无值时新增
