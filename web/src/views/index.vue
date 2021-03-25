@@ -14,7 +14,7 @@
         <div class="container">
           <div class="title1">最新上线</div>
           <div class="row">
-            <div v-for="o in news" class="col-md-4" v-bind:key="o">
+            <div v-for="(o,index) in news" class="col-md-4" v-bind:key="index">
               <the-course v-bind:course="o"></the-course>
 
             </div>
@@ -27,7 +27,7 @@
 
           <div class="title2">好课推荐</div>
           <div class="row">
-            <div v-for="o in news" class="col-md-4" v-bind:key="o">
+            <div v-for="(o,index) in news" class="col-md-4" v-bind:key="index">
               <the-course v-bind:course="o"></the-course>
             </div>
 

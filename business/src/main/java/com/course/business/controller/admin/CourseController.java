@@ -31,7 +31,7 @@ public class CourseController {
      * @return
      */
     @PostMapping("/list")
-    public ResponseDto list(@RequestBody PageDto pageDto) {
+    public ResponseDto list(@RequestBody CoursePageDto pageDto) {
         LOG.info("PageDto:{}", pageDto);
         ResponseDto responseDto = new ResponseDto();
         courseService.list(pageDto);
