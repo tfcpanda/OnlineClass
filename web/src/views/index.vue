@@ -16,12 +16,8 @@
           <div class="row">
             <div v-for="(o,index) in news" class="col-md-4" v-bind:key="index">
               <the-course v-bind:course="o"></the-course>
-
             </div>
-
-
           </div>
-
 
           <hr>
 
@@ -44,6 +40,7 @@
 <script>
 
 import TheCourse from "../components/the-course";
+
 export default {
   name: 'index',
   components: {TheCourse},
