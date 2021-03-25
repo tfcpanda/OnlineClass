@@ -37,32 +37,21 @@ public class CourseService {
 
     @Resource
     private CourseContentMapper courseContentMapper;
+
     /**
-     * 列表查询
+     * 列表查询:关联课程分类表
+     *
      * @param pageDto
      */
     public void list(CoursePageDto pageDto) {
         PageHelper.startPage(pageDto.getPage(), pageDto.getSize());
-        CourseExample courseExample = new CourseExample();
-        CourseExample.Criteria criteria = courseExample.createCriteria();
-        if (!StringUtils.isEmpty(pageDto.getStatus())) {
-            criteria.andStatusEqualTo(pageDto.getStatus());
-        }
-        courseExample.setOrderByClause("sort asc");
-        List<Course> courseList = courseMapper.selectByExample(courseExample);
-        PageInfo<Course> pageInfo = new PageInfo<>(courseList);
+        List<CourseDto> courseDtoList = myCourseMapper.list(pageDto);
+        PageInfo<CourseDto> pageInfo = new PageInfo<>(courseDtoList);
         pageDto.setTotal(pageInfo.getTotal());
-//        List<CourseDto> courseDtoList = new ArrayList<CourseDto>();
-//        for (int i = 0, l = courseList.size(); i < l; i++) {
-//            Course course = courseList.get(i);
-//            CourseDto courseDto = new CourseDto();
-//            BeanUtils.copyProperties(course, courseDto);
-//            courseDtoList.add(courseDto);
-//        }
-        List<CourseDto> courseDtoList = CopyUtil.copyList(courseList, CourseDto.class);
         pageDto.setList(courseDtoList);
 
     }
+
     /**
      * 新课列表查询，只查询已发布的，按创建日期倒序,用于主页
      */
@@ -76,7 +65,8 @@ public class CourseService {
     }
 
     /**
-     *保存
+     * 保存
+     *
      * @param courseDto
      */
     @Transactional
@@ -88,22 +78,22 @@ public class CourseService {
             this.update(course);
         }
         //批量保存课程分类
-        courseCategoryService.saveBatch(course.getId(),courseDto.getCategorys());
+        courseCategoryService.saveBatch(course.getId(), courseDto.getCategorys());
     }
 
 
     // 批量保存课程分类
 
 
-
     /**
      * 新增
+     *
      * @param course
      */
     public void insert(Course course) {
-            Date now = new Date();
-                    course.setCreatedAt(now);
-                    course.setUpdatedAt(now);
+        Date now = new Date();
+        course.setCreatedAt(now);
+        course.setUpdatedAt(now);
         course.setId(UuidUtil.getShortUuid());
 
         courseMapper.insert(course);
@@ -113,16 +103,18 @@ public class CourseService {
 
     /**
      * 更新
+     *
      * @param course
      */
     private void update(Course course) {
-                    course.setUpdatedAt(new Date());
+        course.setUpdatedAt(new Date());
         courseMapper.updateByPrimaryKey(course);
 
     }
 
     /**
      * 根据ID删除
+     *
      * @param id
      */
     public void delete(String id) {
@@ -132,6 +124,7 @@ public class CourseService {
 
     /**
      * 更新课程时长
+     *
      * @param courseId
      * @return
      */
@@ -165,6 +158,7 @@ public class CourseService {
 
     /**
      * 排序
+     *
      * @param sortDto
      */
     @Transactional
