@@ -4,6 +4,7 @@ import com.course.server.dto.Constants;
 import com.course.server.dto.LoginMemberDto;
 import com.course.server.dto.MemberDto;
 import com.course.server.dto.ResponseDto;
+import com.course.server.ecxeption.BusinessException;
 import com.course.server.service.MemberService;
 import com.course.server.util.UuidUtil;
 import com.course.server.util.ValidatorUtil;
@@ -96,6 +97,24 @@ public class MemberController {
     public ResponseDto logout(HttpServletRequest request) {
         ResponseDto responseDto = new ResponseDto();
         request.getSession().removeAttribute(Constants.LOGIN_USER);
+        return responseDto;
+    }
+
+
+    /**
+     * 校验手机号是否存在
+     * 存在则success=true，不存在则success=false
+     */
+    @GetMapping(value = "/is-mobile-exist/{mobile}")
+    public ResponseDto isMobileExist(@PathVariable(value = "mobile") String mobile) throws BusinessException {
+        LOG.info("查询手机号是否存在开始");
+        ResponseDto responseDto = new ResponseDto();
+        MemberDto memberDto = memberService.findByMobile(mobile);
+        if (memberDto == null) {
+            responseDto.setSuccess(false);
+        } else {
+            responseDto.setSuccess(true);
+        }
         return responseDto;
     }
 
