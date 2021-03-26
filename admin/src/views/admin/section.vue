@@ -336,6 +336,7 @@ export default {
       _this.section.vod = vod;
       _this.getTime();
       _this.$refs.player.playUrl(video);
+
     },
     /**
      * 获取时长
