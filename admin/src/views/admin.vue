@@ -633,7 +633,9 @@ export default {
     $("body").attr("class", "no-skin");
     $("body").remove("login-layout light-login");
     _this.activeSidebar(_this.$route.name.replace("/", "-") + "-sidebar");
-    $.getScript('/ace/assets/js/ace.min.js');
+
+    //$.getScript('/ace/assets/js/ace.min.js');
+
     _this.loginUser = Tool.getLoginUser();
 
     // if (!_this.hasResourceRouter(_this.$route.name)) {
