@@ -1,7 +1,6 @@
-package com.course.business.controller.admin;
+package com.course.business.controller.web;
 
 import com.course.server.dto.MemberCourseDto;
-import com.course.server.dto.PageDto;
 import com.course.server.dto.ResponseDto;
 import com.course.server.service.MemberCourseService;
 import com.course.server.util.ValidatorUtil;
@@ -11,62 +10,43 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
-@RestController
-@RequestMapping("/admin/memberCourse")
+/**
+ * @author 田付成
+ * @date 2021/3/26 13:14
+ */
+
+@RestController("webMemberCourseController")
+@RequestMapping("/web/member-course")
 public class MemberCourseController {
 
     private static final Logger LOG = LoggerFactory.getLogger(MemberCourseController.class);
     public static final String BUSINESS_NAME = "会员课程报名";
+
     @Resource
     private MemberCourseService memberCourseService;
 
-
     /**
-     * 列表查询
-     *
-     * @param pageDto
-     * @return
+     * 保存，id有值时更新，无值时新增
      */
-    @PostMapping("/list")
-    public ResponseDto list(@RequestBody PageDto pageDto) {
-        LOG.info("PageDto:{}", pageDto);
-        ResponseDto responseDto = new ResponseDto();
-        memberCourseService.list(pageDto);
-        responseDto.setContent(pageDto);
-        return responseDto;
-    }
-
-    /**
-     * 保存id，id有值的时候更新，没有值的时候增加
-     *
-     * @param memberCourseDto
-     * @return
-     */
-    @PostMapping("/save")
-    public ResponseDto save(@RequestBody MemberCourseDto memberCourseDto) {
-        ResponseDto responseDto = new ResponseDto();
-
-        //后端校验填入信息
+    @PostMapping("/enroll")
+    public ResponseDto enroll(@RequestBody MemberCourseDto memberCourseDto) {
+        // 保存校验
         ValidatorUtil.require(memberCourseDto.getMemberId(), "会员id");
         ValidatorUtil.require(memberCourseDto.getCourseId(), "课程id");
-        ValidatorUtil.require(memberCourseDto.getAt(), "报名时间");
-        memberCourseService.save(memberCourseDto);
+
+        ResponseDto responseDto = new ResponseDto();
+        memberCourseDto = memberCourseService.enroll(memberCourseDto);
         responseDto.setContent(memberCourseDto);
         return responseDto;
     }
 
     /**
      * 删除
-     *
-     * @param id
-     * @return
      */
     @DeleteMapping("/delete/{id}")
     public ResponseDto delete(@PathVariable String id) {
         ResponseDto responseDto = new ResponseDto();
-        LOG.info("id:{}", id);
         memberCourseService.delete(id);
-
         return responseDto;
     }
 }
