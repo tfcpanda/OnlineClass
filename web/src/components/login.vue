@@ -58,7 +58,7 @@
                        v-bind:class="registerMobileCodeValidateClass"
                        class="form-control"
                        placeholder="手机验证码"
-                       v-model="memberRegister.code">
+                       v-model="memberRegister.smsCode">
 
 
                 <div class="input-group-append">
@@ -414,7 +414,7 @@ export default {
     },
     onRegisterMobileCodeBlur() {
       let _this = this;
-      _this.registerMobileCodeValidate = Pattern.validateMobileCode(_this.memberRegister.code);
+      _this.registerMobileCodeValidate = Pattern.validateMobileCode(_this.memberRegister.smsCode);
       return _this.registerMobileValidate;
     },
 
