@@ -208,8 +208,7 @@
                     return;
                 }
 
-              console.log(_this.teacher);
-              Loading.show();
+                Loading.show();
                 _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/teacher/save', _this.teacher).then((response)=>{
                     Loading.hide();
                     let resp = response.data;
@@ -246,6 +245,7 @@
             _this.teacher.image = image;
             // 新增讲师，上传头像后不能实时预览，解决方法二
             _this.$forceUpdate();
+
           },
 
 
