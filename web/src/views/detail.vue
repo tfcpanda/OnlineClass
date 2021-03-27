@@ -25,6 +25,7 @@
           </div>
         </div>
 
+
         <div class="row">
 
           <!-- 课程内容 & 大章小节 -->
@@ -47,10 +48,11 @@
               </div>
               <div class="tab-pane" id="chapter">
 
-                <!--循环-->
-                <div v-for="(chapter,i) in chapters" class="chapter">
+                 <!--开始显示章节内容-->
+
+                <div v-for="(chapter, i) in chapters" class="chapter">
                   <div v-on:click="doFolded(chapter, i)" class="chapter-chapter">
-                    <span>{{ chapter.name }}</span>
+                    <span>{{chapter.name}}</span>
                     <span class="pull-right">
                       <i v-show="chapter.folded" class="fa fa-plus-square" aria-hidden="true"></i>
                       <i v-show="!chapter.folded" class="fa fa-minus-square" aria-hidden="true"></i>
@@ -60,41 +62,43 @@
                     <table class="table table-striped">
                       <tr v-for="(s, j) in chapter.sections" class="chapter-section-tr">
                         <td class="col-sm-8 col-xs-12">
-                          <div class="section-title">
+                          <div v-on:click="play(s)" class="section-title">
                             <i class="fa fa-video-camera d-none d-sm-inline"></i>&nbsp;&nbsp;
-                            <span class="d-none d-sm-inline">第{{ j + 1 }}节&nbsp;&nbsp;</span>
-                            {{ s.title }}
-                            <span v-show="s.charge !== SECTION_CHARGE.CHARGE.key"
-                                  class="badge badge-primary hidden-xs">免费</span>
+                            <span class="d-none d-sm-inline">第{{j+1}}节&nbsp;&nbsp;</span>
+                            {{s.title}}
+                            <span v-show="s.charge !== SECTION_CHARGE.CHARGE.key" class="badge badge-primary hidden-xs">免费</span>
                           </div>
                         </td>
                         <td class="col-sm-1 text-right">
-                          <span class="badge badge-primary">{{ s.time | formatSecond }}</span>
+                          <span class="badge badge-primary">{{s.time | formatSecond}}</span>
                         </td>
                       </tr>
                     </table>
                   </div>
                 </div>
+                <!--显示章节内容结束-->
+              </div>
+            </div>
+
+          </div>
+
+          <!-- 讲师信息 -->
+          <div class="col-md-3">
+            <div class="card" style="width: 18rem;">
+              <img v-bind:src="teacher.image" class="card-img-top">
+              <div class="card-body">
+                <h5 class="card-title">{{teacher.name}}</h5>
+                <p class="card-text">{{teacher.motto}}</p>
+                <p class="card-text">{{teacher.intro}}</p>
               </div>
             </div>
           </div>
 
         </div>
 
-        <!-- 讲师信息 -->
-        <div class="col-md-3">
-          <div class="card" style="width: 18rem;">
-            <img v-bind:src="teacher.image" class="card-img-top">
-            <div class="card-body">
-              <h5 class="card-title">{{ teacher.name }}</h5>
-              <p class="card-text">{{ teacher.motto }}</p>
-              <p class="card-text">{{ teacher.intro }}</p>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
+    <modal-player ref="modalPlayer"></modal-player>
 
 
   </main>
@@ -102,8 +106,12 @@
 
 <script>
 
+import ModalPlayer from "../components/modal-player";
+
 export default {
   name: 'detail',
+  components: {ModalPlayer},
+
   data: function () {
     return {
       id: "",
