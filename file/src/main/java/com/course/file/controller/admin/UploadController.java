@@ -35,6 +35,28 @@ public class UploadController {
 
     public static final String BUSINESS_NAME = "文件上传";
 
+    /**
+     * 上传到阿里云
+     */
+    @Value("${oss.endpoint}")
+    private String endpoint;
+
+    @Value("${oss.bucket}")
+    private String bucket;
+
+    @Value("${oss.ossDomain}")
+    private String ossDomain;
+
+    @Value("${vod.accessKeyId}")
+    private String accessKeyId;
+
+    @Value("${vod.accessKeySecret}")
+    private String accessKeySecret;
+
+    /**
+     * 上传到本地
+     */
+
     @Value("${file.domain}")
     private String FILE_DOMAIN;
 
@@ -44,16 +66,18 @@ public class UploadController {
 
 
 
-    @Value("${vod.accessKeyId}")
-    private String accessKeyId;
-
-    @Value("${vod.accessKeySecret}")
-    private String accessKeySecret;
 
 
     @Resource
     private FileService fileService;
 
+    /**
+     * 文件上传到本地
+     *
+     * @param fileDto
+     * @return
+     * @throws Exception
+     */
     @RequestMapping("/upload")
     public ResponseDto upload(@RequestBody FileDto fileDto) throws Exception {
         String use = fileDto.getUse();
@@ -105,6 +129,12 @@ public class UploadController {
     }
 
 
+    /**
+     * 分片合并
+     *
+     * @param fileDto
+     * @throws Exception
+     */
     public void merge(FileDto fileDto) throws Exception {
         LOG.info("合并分片开始");
         String path = fileDto.getPath();
@@ -155,6 +185,14 @@ public class UploadController {
         LOG.info("删除分片结束");
     }
 
+
+    /**
+     * 检查文件分片
+     *
+     * @param key
+     * @return
+     * @throws Exception
+     */
     @GetMapping("/check/{key}")
     public ResponseDto check(@PathVariable String key) throws Exception {
         LOG.info("检查上传分片开始：{}", key);
@@ -170,9 +208,7 @@ public class UploadController {
                 String fileUrl = response.getMezzanine().getFileURL();
                 fileDto.setPath(fileUrl);
             }
-
         }
-
         responseDto.setContent(fileDto);
         return responseDto;
     }

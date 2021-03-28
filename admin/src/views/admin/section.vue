@@ -205,7 +205,6 @@
 
 <script>
 import Pagination from "../../components/pagination";
-
 import Vod from "../../components/vod";
 import Player from "../../components/player"
 import ModalPlayer from "../../components/modal-player";
@@ -328,6 +327,7 @@ export default {
         })
       });
     },
+
     afterUpload(resp) {
       let _this = this;
       let video = resp.content.path;

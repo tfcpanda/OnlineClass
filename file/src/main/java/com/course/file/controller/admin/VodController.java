@@ -45,6 +45,14 @@ public class VodController {
     @Resource
     private FileService fileService;
 
+
+    /**
+     * 文件上传接口
+     *
+     * @param fileDto
+     * @return
+     * @throws Exception
+     */
     @PostMapping("/vod")
     public ResponseDto fileUpload(@RequestBody FileDto fileDto) throws Exception {
         LOG.info("上传文件开始");
@@ -116,6 +124,7 @@ public class VodController {
         fileService.save(fileDto);
 
         ResponseDto responseDto = new ResponseDto();
+        //获取时长
         fileDto.setPath(fileUrl);
         responseDto.setContent(fileDto);
 
@@ -125,6 +134,14 @@ public class VodController {
         return responseDto;
     }
 
+
+    /**
+     * 授权播放
+     *
+     * @param vod
+     * @return
+     * @throws ClientException
+     */
     @RequestMapping(value = "/get-auth/{vod}", method = RequestMethod.GET)
     public ResponseDto getAuth(@PathVariable String vod) throws ClientException {
         LOG.info("获取播放授权开始: ");

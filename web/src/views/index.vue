@@ -4,7 +4,7 @@
 
       <section class="jumbotron text-center">
         <div class="container">
-          <h1>在线客车</h1>
+          <h1>在线教育</h1>
           <p class="lead text-muted">在线教育平台的编写</p>
 
         </div>

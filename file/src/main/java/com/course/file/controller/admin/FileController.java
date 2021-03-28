@@ -22,6 +22,7 @@ public class FileController {
 
     /**
      * 列表查询
+     *
      * @param pageDto
      * @return
      */
@@ -34,6 +35,11 @@ public class FileController {
         return responseDto;
     }
 
+    /**
+     * 检查分片上传
+     * @param key
+     * @return
+     */
     @GetMapping("/check/{key}")
     public ResponseDto check(@PathVariable String key) {
         LOG.info("检查上传分片开始：{}", key);

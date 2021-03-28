@@ -34,6 +34,14 @@ public class VodController {
 
     public static final String BUSINESS_NAME = "VOD";
 
+
+    /**
+     * 获得播放授权
+     *
+     * @param vod
+     * @return
+     * @throws ClientException
+     */
     @RequestMapping(value = "/get-auth/{vod}", method = RequestMethod.GET)
     public ResponseDto getAuth(@PathVariable String vod) throws ClientException {
         LOG.info("获取播放授权开始: ");
