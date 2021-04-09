@@ -116,6 +116,7 @@ export default {
       user: {},
       remember: true, // 默认勾选记住我
       imageCodeToken: ""
+
     }
   },
   mounted: function () {

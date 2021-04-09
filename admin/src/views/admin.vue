@@ -4,7 +4,7 @@
 
 
       <div class="navbar-container" id="navbar-container">
-        <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler">
+        <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" >
           <span class="sr-only">Toggle sidebar</span>
 
           <span class="icon-bar"></span>
@@ -18,7 +18,7 @@
           <a href="#" class="navbar-brand">
             <small>
               <i class="fa fa-leaf"></i>
-              Ace Admin
+              后台管理
             </small>
           </a>
         </div>
@@ -316,7 +316,7 @@
     <div class="main-container" id="main-container">
 
 
-      <div id="sidebar" class="sidebar                  responsive">
+      <div id="sidebar" class="sidebar">
 
 
         <div class="sidebar-shortcuts" id="sidebar-shortcuts">
@@ -586,8 +586,8 @@
         <div class="footer-inner">
           <div class="footer-content">
 						<span class="bigger-120">
-							<span class="blue bolder">Ace</span>
-							Application &copy; 2013-2014
+							<span class="blue bolder">TFC</span>
+							毕业设计田付成192820636 &copy; 2020-2021 皖ICP备2021002041号-1
 						</span>
 
             &nbsp; &nbsp;
@@ -624,6 +624,7 @@ export default {
 
   name: "admin",
   data: function () {
+
     return {
       loginUser: {},
     }
@@ -663,6 +664,7 @@ export default {
 
 
   },
+
   methods: {
     // /**
     //  * 查找是否有权限
@@ -728,6 +730,14 @@ export default {
         }
       });
     },
+
+    show(){
+      let _this = this;
+      _this.isShow = !_this.isShow;
+    },
   }
 }
+
+
+
 </script>
