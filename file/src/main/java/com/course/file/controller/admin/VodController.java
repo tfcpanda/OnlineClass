@@ -59,37 +59,18 @@ public class VodController {
         String use = fileDto.getUse();
         String key = fileDto.getKey();
         String suffix = fileDto.getSuffix();
-        Integer shardIndex = fileDto.getShardIndex();
-        Integer shardSize = fileDto.getShardSize();
         String shardBase64 = fileDto.getShard();
         MultipartFile shard = Base64ToMultipartFile.base64ToMultipart(shardBase64);
-
         // 保存文件到本地
         FileUseEnum useEnum = FileUseEnum.getByCode(use);
-
 //        //如果文件夹不存在则创建
         String dir = useEnum.name().toLowerCase();
-//        File fullDir = new File(FILE_PATH + dir);
-//        if (!fullDir.exists()) {
-//            fullDir.mkdir();
-//        }
-
-//        String path = dir + File.separator + key + "." + suffix + "." + fileDto.getShardIndex();
         String path = new StringBuffer(dir)
                 .append("/")
                 .append(key)
                 .append(".")
                 .append(suffix)
                 .toString(); // course\6sfSqfOwzmik4A4icMYuUe.mp4
-//        String localPath = new StringBuffer(path)
-//                .append(".")
-//                .append(fileDto.getShardIndex())
-//                .toString(); // course\6sfSqfOwzmik4A4icMYuUe.mp4.1
-//        String fullPath = FILE_PATH + localPath;
-//        File dest = new File(fullPath);
-//        shard.transferTo(dest);
-//        LOG.info(dest.getAbsolutePath());
-
         String vod = "";
         String fileUrl = "";
         try {
@@ -116,21 +97,14 @@ public class VodController {
         } catch (Exception e) {
             LOG.info("上传视频失败, ErrorMessage : " + e.getLocalizedMessage(), e);
         }
-
-
         LOG.info("保存文件记录开始");
         fileDto.setPath(path);
         fileDto.setVod(vod);
         fileService.save(fileDto);
-
         ResponseDto responseDto = new ResponseDto();
         //获取时长
         fileDto.setPath(fileUrl);
         responseDto.setContent(fileDto);
-
-//        if (fileDto.getShardIndex().equals(fileDto.getShardTotal())) {
-//            this.merge(fileDto);
-//        }
         return responseDto;
     }
 

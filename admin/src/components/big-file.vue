@@ -43,6 +43,7 @@ export default {
     uploadFile() {
       let _this = this;
       let formData = new window.FormData();
+ 4      //得到这样图片
       let file = _this.$refs.file.files[0];
       console.log(JSON.stringify(file));
       /*
@@ -69,16 +70,24 @@ export default {
 
 
       // 判断文件格式
+
+      //设置支持的类型
       let suffixs = _this.suffixs;
+      //得到文件名
       let fileName = file.name;
+      //得到文件的后缀名字，并且全部转成小写。
       let suffix = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase();
+      //定义一个后缀校验变量。
       let validateSuffix = false;
+      //循环判断文件后缀是否和已经设置的是否一样。
       for (let i = 0; i < suffixs.length; i++) {
         if (suffixs[i].toLowerCase() === suffix) {
+          //如果一样就改成true
           validateSuffix = true;
           break;
         }
       }
+      //如果校验未通过就提示校验未通过。
       if (!validateSuffix) {
         Toast.warning("文件格式不正确！只支持上传：" + suffixs.join(","));
         $("#" + _this.inputId + "-input").val("");
@@ -90,12 +99,19 @@ export default {
       // let shardSize = 5 * 1024 * 1024;    //以20MB为一个分片
       let shardSize = _this.shardSize;
       let shardIndex = 1;		//分片索引
-      let start = (shardIndex - 1) * shardSize;	//当前分片起始位置
-      let end = Math.min(file.size, start + shardSize); //当前分片结束位置
-      let fileShard = file.slice(start, end); //从文件中截取当前的分片数据
+      //当前分片起始位置
+      let start = (shardIndex - 1) * shardSize;
+      //当前分片结束位置 起始位置和他的大小相加
+      let end = Math.min(file.size, start + shardSize);
+      //从文件中截取当前的分片数据
+      let fileShard = file.slice(start, end);
+      //计算总文件大小
       let size = file.size;
-      let shardTotal = Math.ceil(size / shardSize); //总片数
+      //总片数
+      let shardTotal = Math.ceil(size / shardSize);
 
+
+      //想别的方法传递参数
       let param = {
         'shardIndex': shardIndex,
         'shardSize': shardSize,
@@ -109,6 +125,52 @@ export default {
 
       _this.upload(param);
     },
+
+
+
+    /**
+     * 将分片数据转成base64进行上传
+     */
+    upload: function (param) {
+      //得到上一个方法的参数
+      let _this = this;
+      let shardIndex = param.shardIndex;
+      let shardTotal = param.shardTotal;
+      let shardSize = param.shardSize;
+      let fileShard = _this.getFileShard(shardIndex, shardSize);
+
+
+      // 将图片转为base64进行传输
+      let fileReader = new FileReader();
+
+      Progress.show(parseInt((shardIndex - 1) * 100 / shardTotal));
+
+      fileReader.onload = function (e) {
+        let base64 = e.target.result;
+        // console.log("base64:", base64);
+        param.shard = base64;
+
+
+        _this.$ajax.post(process.env.VUE_APP_SERVER + '/file/admin/' + _this.url, param).then((response) => {
+          let resp = response.data;
+          console.log("上传文件成功：", resp);
+          Progress.show(parseInt(shardIndex * 100 / shardTotal));
+          //循环上传分片
+          if (shardIndex < shardTotal) {
+            //上传下一个分片
+            param.shardIndex = param.shardIndex + 1;
+            _this.upload(param);
+          } else {
+            Progress.hide();
+            _this.afterUpload(resp);
+            $("#" + _this.inputId + "-input").val("");
+          }
+
+        });
+      };
+      fileReader.readAsDataURL(fileShard);
+    },
+
 
     /**
      * 检查文件状态，是否已上传过？传到第几个分片？
@@ -138,47 +200,6 @@ export default {
           $("#" + _this.inputId + "-input").val("");
         }
       })
-    },
-
-    /**
-     * 将分片数据转成base64进行上传
-     */
-    upload: function (param) {
-      let _this = this;
-      let shardIndex = param.shardIndex;
-      let shardTotal = param.shardTotal;
-      let shardSize = param.shardSize;
-      let fileShard = _this.getFileShard(shardIndex, shardSize);
-
-
-      // 将图片转为base64进行传输
-      let fileReader = new FileReader();
-
-      Progress.show(parseInt((shardIndex - 1) * 100 / shardTotal));
-
-      fileReader.onload = function (e) {
-        let base64 = e.target.result;
-        // console.log("base64:", base64);
-        param.shard = base64;
-
-
-        _this.$ajax.post(process.env.VUE_APP_SERVER + '/file/admin/' + _this.url, param).then((response) => {
-          let resp = response.data;
-          console.log("上传文件成功：", resp);
-          Progress.show(parseInt(shardIndex * 100 / shardTotal));
-          if (shardIndex < shardTotal) {
-            //上传下一个分片
-            param.shardIndex = param.shardIndex + 1;
-            _this.upload(param);
-          } else {
-            Progress.hide();
-            _this.afterUpload(resp);
-            $("#" + _this.inputId + "-input").val("");
-          }
-
-        });
-      };
-      fileReader.readAsDataURL(fileShard);
     },
 
     getFileShard (shardIndex, shardSize) {

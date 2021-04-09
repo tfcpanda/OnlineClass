@@ -13,6 +13,7 @@ import org.springframework.core.env.Environment;
 @SpringBootApplication
 @EnableEurekaClient
 @MapperScan("com.course.server.mapper")
+//扫描com.course包中的组件，添加到ioc容器中
 @ComponentScan("com.course")
 public class BusinessApplication {
 
