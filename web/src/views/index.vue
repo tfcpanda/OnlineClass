@@ -2,13 +2,38 @@
   <div>
     <main role="main">
 
+
       <section class="jumbotron text-center">
+
         <div class="container">
           <h1>在线教育</h1>
           <p class="lead text-muted">在线教育平台的编写</p>
 
         </div>
+
+        <!-- Slider main container -->
+        <div class="swiper-container">
+          <!-- Additional required wrapper -->
+          <div class="swiper-wrapper">
+            <!-- Slides -->
+            <div class="swiper-slide">Slide 1</div>
+            <div class="swiper-slide">Slide 2</div>
+            <div class="swiper-slide">Slide 3</div>
+            ...
+          </div>
+          <!-- If we need pagination -->
+          <div class="swiper-pagination"></div>
+
+          <!-- If we need navigation buttons -->
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+
+          <!-- If we need scrollbar -->
+          <div class="swiper-scrollbar"></div>
+        </div>
       </section>
+
+
 
       <div class="album py-5 bg-light">
         <div class="container">
@@ -41,9 +66,11 @@
 
 import TheCourse from "../components/the-course";
 
+
 export default {
   name: 'index',
   components: {TheCourse},
+
   data: function () {
     return {
       news: [],
@@ -100,5 +127,8 @@ export default {
   font-size: 2rem;
 }
 
-
+.swiper-container {
+  width: 600px;
+  height: 300px;
+}
 </style>

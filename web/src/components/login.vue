@@ -400,8 +400,6 @@ export default {
      */
     sendSmsForRegister() {
       let _this = this;
-
-
       if (!_this.onRegisterMobileBlur()) {
         return false;
       }

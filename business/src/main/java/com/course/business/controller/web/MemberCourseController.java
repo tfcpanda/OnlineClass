@@ -13,6 +13,8 @@ import javax.annotation.Resource;
 /**
  * @author 田付成
  * @date 2021/3/26 13:14
+ *
+ * 用来查订阅信息的
  */
 
 @RestController("webMemberCourseController")
@@ -33,7 +35,6 @@ public class MemberCourseController {
         // 保存校验
         ValidatorUtil.require(memberCourseDto.getMemberId(), "会员id");
         ValidatorUtil.require(memberCourseDto.getCourseId(), "课程id");
-
         ResponseDto responseDto = new ResponseDto();
         memberCourseDto = memberCourseService.enroll(memberCourseDto);
         responseDto.setContent(memberCourseDto);

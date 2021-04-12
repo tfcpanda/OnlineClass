@@ -48,7 +48,6 @@ public class VodController {
 
     /**
      * 文件上传接口
-     *
      * @param fileDto
      * @return
      * @throws Exception
@@ -91,7 +90,6 @@ public class VodController {
             GetMezzanineInfoResponse response = VodUtil.getMezzanineInfo(vodClient, vod);
             System.out.println("获取视频信息, response : " + JSON.toJSONString(response));
             fileUrl = response.getMezzanine().getFileURL();
-
             // 关闭OSSClient。
             ossClient.shutdown();
         } catch (Exception e) {

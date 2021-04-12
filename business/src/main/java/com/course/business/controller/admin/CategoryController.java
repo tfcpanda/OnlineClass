@@ -55,18 +55,10 @@ public class CategoryController {
     @PostMapping("/save")
     public ResponseDto save(@RequestBody CategoryDto categoryDto) {
         ResponseDto responseDto = new ResponseDto();
-
         //后端校验填入信息
-
-
-            ValidatorUtil.require(categoryDto.getParent(), "父id");
-
-
-            ValidatorUtil.require(categoryDto.getName(), "名称");
-            ValidatorUtil.length(categoryDto.getName(), "名称", 1, 50);
-
-
-
+        ValidatorUtil.require(categoryDto.getParent(), "父id");
+        ValidatorUtil.require(categoryDto.getName(), "名称");
+        ValidatorUtil.length(categoryDto.getName(), "名称", 1, 50);
         categoryService.save(categoryDto);
         responseDto.setContent(categoryDto);
         return responseDto;
@@ -82,7 +74,6 @@ public class CategoryController {
         ResponseDto responseDto = new ResponseDto();
         LOG.info("id:{}", id);
         categoryService.delete(id);
-
         return responseDto;
     }
 }

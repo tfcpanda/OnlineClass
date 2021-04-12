@@ -53,29 +53,14 @@ public class TeacherController {
     @PostMapping("/save")
     public ResponseDto save(@RequestBody TeacherDto teacherDto) {
         ResponseDto responseDto = new ResponseDto();
-
         //后端校验填入信息
-
-
-            ValidatorUtil.require(teacherDto.getName(), "姓名");
-            ValidatorUtil.length(teacherDto.getName(), "姓名", 1, 50);
-
-
-            ValidatorUtil.length(teacherDto.getNickname(), "昵称", 1, 50);
-
-
-            ValidatorUtil.length(teacherDto.getImage(), "头像", 1, 100);
-
-
-            ValidatorUtil.length(teacherDto.getPosition(), "职位", 1, 50);
-
-
-            ValidatorUtil.length(teacherDto.getMotto(), "座右铭", 1, 50);
-
-
-            ValidatorUtil.length(teacherDto.getIntro(), "简介", 1, 500);
-
-
+        ValidatorUtil.require(teacherDto.getName(), "姓名");
+        ValidatorUtil.length(teacherDto.getName(), "姓名", 1, 50);
+        ValidatorUtil.length(teacherDto.getNickname(), "昵称", 1, 50);
+        ValidatorUtil.length(teacherDto.getImage(), "头像", 1, 100);
+        ValidatorUtil.length(teacherDto.getPosition(), "职位", 1, 50);
+        ValidatorUtil.length(teacherDto.getMotto(), "座右铭", 1, 50);
+        ValidatorUtil.length(teacherDto.getIntro(), "简介", 1, 500);
         teacherService.save(teacherDto);
         responseDto.setContent(teacherDto);
         return responseDto;

@@ -101,9 +101,7 @@ public class CategoryService {
     @Transactional
     public void delete(String id) {
         deleteChildren(id);
-
         categoryMapper.deleteByPrimaryKey(id);
-
     }
 
     /**
