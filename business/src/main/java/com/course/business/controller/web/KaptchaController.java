@@ -30,6 +30,7 @@ public class KaptchaController {
 //    @Resource
 //    public RedisTemplate redisTemplate;
 
+    //前端传来的token
     @GetMapping("/image-code/{imageCodeToken}")
     public void imageCode(@PathVariable(value = "imageCodeToken") String imageCodeToken, HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception{
         ByteArrayOutputStream jpegOutputStream = new ByteArrayOutputStream();
@@ -40,8 +41,6 @@ public class KaptchaController {
             // 将生成的验证码放入会话缓存中，后续验证的时候用到
              request.getSession().setAttribute(imageCodeToken, createText);
             // 将生成的验证码放入redis缓存中，后续验证的时候用到
-            //redisTemplate.opsForValue().set(imageCodeToken, createText, 300, TimeUnit.SECONDS);
-
             // 使用验证码字符串生成验证码图片
             BufferedImage challenge = defaultKaptcha.createImage(createText);
             ImageIO.write(challenge, "jpg", jpegOutputStream);

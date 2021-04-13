@@ -342,20 +342,23 @@ export default {
       // 将明文存储到缓存中
       // let passwordShow = _this.member.password;
 
-      // 如果密码是从缓存带出来的，则不需要重新加密
+      // 密码加密
       let md5 = hex_md5(_this.member.password);
       let rememberMember = LocalStorage.get(LOCAL_KEY_REMEMBER_MEMBER) || {};
       if (md5 !== rememberMember.md5) {
         _this.member.password = hex_md5(_this.member.password + KEY);
       }
-
+      //得到验证码
       _this.member.imageCodeToken = _this.imageCodeToken;
-
+      //把整个对象传过去
       _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/web/member/login', _this.member).then((response) => {
         let resp = response.data;
+        //返回成功就
         if (resp.success) {
           console.log("登录成功：", resp.content);
+          //记住登录名字
           let loginMember = resp.content;
+          //用户名字保存起来。
           Tool.setLoginMember(resp.content);
 
           // 判断“记住我”
@@ -364,9 +367,9 @@ export default {
             // 原：这里需要保存密码明文，否则登录时又会再加一层密
             // 新：这里保存密码密文，并保存密文md5，用于检测密码是否被重新输入过
             // 补交：这里保存密码密文，并保存密文md5，用于检测密码是否被重新输入过
-
             let md5 = hex_md5(_this.member.password);
             LocalStorage.set(LOCAL_KEY_REMEMBER_MEMBER, {
+              //得到数据
               mobile: loginMember.mobile,
               password: _this.member.password,
               md5: md5
@@ -378,6 +381,7 @@ export default {
 
           // 登录成功
           _this.$parent.setLoginMember(loginMember);
+          //登录框关闭
           $("#login-modal").modal("hide");
 
         } else {
@@ -393,7 +397,9 @@ export default {
      */
     loadImageCode: function () {
       let _this = this;
+      //为验证码toke加上uuid
       _this.imageCodeToken = Tool.uuid(8);
+      //把uuid当作参数传递给后端
       $('#image-code').attr('src', process.env.VUE_APP_SERVER + '/business/web/kaptcha/image-code/' + _this.imageCodeToken);
     },
 

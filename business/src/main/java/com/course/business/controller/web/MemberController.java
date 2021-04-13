@@ -67,38 +67,40 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseDto login(@RequestBody MemberDto memberDto, HttpServletRequest request) {
         LOG.info("用户登录开始");
+        //Dto存密码的时候加密
         memberDto.setPassword(DigestUtils.md5DigestAsHex(memberDto.getPassword().getBytes()));
         ResponseDto responseDto = new ResponseDto();
 
         // 根据验证码token去获取缓存中的验证码，和用户输入的验证码是否一致
-       // String imageCode = (String) redisTemplate.opsForValue().get(memberDto.getImageCodeToken());
         String imageCode = (String) request.getSession().getAttribute(memberDto.getImageCodeToken());
 
-        LOG.info("从redis中获取到的验证码：{}", imageCode);
+        //如果验证码是空的，就显示过期
         if (StringUtils.isEmpty(imageCode)) {
             responseDto.setSuccess(false);
             responseDto.setMessage("验证码已过期");
             LOG.info("用户登录失败，验证码已过期");
             return responseDto;
         }
+        //把验证码全部转换成小写对比，如果不相同就提示验证码不正确。
         if (!imageCode.toLowerCase().equals(memberDto.getImageCode().toLowerCase())) {
             responseDto.setSuccess(false);
             responseDto.setMessage("验证码不对");
             LOG.info("用户登录失败，验证码不对");
             return responseDto;
         } else {
-            // 验证通过后，移除验证码
-            //redisTemplate.delete(memberDto.getImageCodeToken());
+            // 其他情况就实现验证码正确。验证通过后，移除验证码
             request.getSession().removeAttribute(memberDto.getImageCodeToken());
 
         }
-
+        //跳转到
         LoginMemberDto loginMemberDto = memberService.login(memberDto);
+        //生成一个token
         String token = UuidUtil.getShortUuid();
+        //保存token
         loginMemberDto.setToken(token);
+        //保存为登录账号
         request.getSession().setAttribute(Constants.LOGIN_USER,loginMemberDto);
-
-        //redisTemplate.opsForValue().set(token, JSON.toJSONString(loginMemberDto), 3600, TimeUnit.SECONDS);
+        //返回数据放到Dto中。
         responseDto.setContent(loginMemberDto);
         return responseDto;
     }
