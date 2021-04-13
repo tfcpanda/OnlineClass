@@ -113,15 +113,20 @@ public class MemberController {
     /**
      * 校验手机号是否存在
      * 存在则success=true，不存在则success=false
+     * 传递mobile手机号
      */
     @GetMapping(value = "/is-mobile-exist/{mobile}")
     public ResponseDto isMobileExist(@PathVariable(value = "mobile") String mobile) throws BusinessException {
+        //前端得到手机号
         LOG.info("查询手机号是否存在开始");
         ResponseDto responseDto = new ResponseDto();
+        //根据手机号查询member
         MemberDto memberDto = memberService.findByMobile(mobile);
         if (memberDto == null) {
+            //如果没注册过写false
             responseDto.setSuccess(false);
         } else {
+            //如果注册过写true
             responseDto.setSuccess(true);
         }
         return responseDto;

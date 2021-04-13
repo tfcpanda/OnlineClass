@@ -59,6 +59,7 @@ public class SmsService {
      * @param smsDto
      */
     public void save(SmsDto smsDto) {
+        //把Dto的数据复制到实体里面。
         Sms sms = CopyUtil.copy(smsDto, Sms.class);
         if (StringUtils.isEmpty(smsDto.getId())) {
             this.insert(sms);
@@ -109,6 +110,7 @@ public class SmsService {
      * @param smsDto
      */
     public void sendCode(SmsDto smsDto) {
+        //复杂sql查询
         SmsExample example = new SmsExample();
         SmsExample.Criteria criteria = example.createCriteria();
         // 查找1分钟内有没有同手机号同操作发送记录且没被用过
@@ -116,11 +118,14 @@ public class SmsService {
                 .andUseEqualTo(smsDto.getUse())
                 .andStatusEqualTo(SmsStatusEnum.NOT_USED.getCode())
                 .andAtGreaterThan(new Date(new Date().getTime() - 1 * 60 * 1000));
+        //创建一个列
         List<Sms> smsList = smsMapper.selectByExample(example);
-
+        //如果列等于空就代表1分钟内有没有同手机号同操作发送记录且没被用过
         if (smsList == null || smsList.size() == 0) {
+            //生成验证码
             saveAndSend(smsDto);
         } else {
+            //如果发送频繁就不发送
             LOG.warn("短信请求过于频繁, {}", smsDto.getMobile());
             throw new BusinessException(BusinessExceptionCode.MOBILE_CODE_TOO_FREQUENT);
         }
@@ -134,12 +139,16 @@ public class SmsService {
     private void saveAndSend(SmsDto smsDto) {
         // 生成6位数字
         String code = String.valueOf((int) (((Math.random() * 9) + 1) * 100000));
+        //创建时间
         smsDto.setAt(new Date());
+        //设置成没有使用过，返回code
         smsDto.setStatus(SmsStatusEnum.NOT_USED.getCode());
+        //把验证码保存。
         smsDto.setCode(code);
+        //在调用save方法，把这条数据保存到数据库
         this.save(smsDto);
 
-        // TODO 调第三方短信接口发送短信
+
     }
 
     /**

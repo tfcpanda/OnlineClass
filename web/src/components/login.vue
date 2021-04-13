@@ -400,18 +400,21 @@ export default {
      */
     sendSmsForRegister() {
       let _this = this;
-
-
+      //如果验证通不过就返回false
       if (!_this.onRegisterMobileBlur()) {
         return false;
       }
 
       let sms = {
+        //得到他的手机号
         mobile: _this.memberRegister.mobile,
+        //将用途改成注册
         use: SMS_USE.REGISTER.key
       };
+      //用他的手机号作为参数。
       _this.$ajax.get(process.env.VUE_APP_SERVER + '/business/web/member/is-mobile-exist/' + _this.memberRegister.mobile).then((res) => {
         let response = res.data;
+        //如果查询到有相同的时候就返回true
         if (response.success) {
           Toast.warning("手机号已被注册");
         } else {
@@ -426,14 +429,15 @@ export default {
      */
     sendSmsCode(sms, btnId) {
       let _this = this;
-
-      // 调服务端发短信接口
+      // 调服务端发短信接口，sms作为参数
       _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/web/sms/send', sms).then((res) => {
         let response = res.data;
+        //返回值为true
         if (response.success) {
           Toast.success("短信已发送");
           // 开始倒计时
           _this.countdown = 60;
+          //设置时间
           _this.setTime(btnId);
         } else {
           Toast.warning(response.message);
@@ -449,10 +453,12 @@ export default {
       let _this = this;
       let btn = $("#" + btnId);
       if (_this.countdown === 0) {
+        //改成不能点击
         btn.removeAttr("disabled");
         btn.text("获取验证码");
         return;
       } else {
+
         btn.attr("disabled", true);
         btn.text("重新发送(" + _this.countdown + ")");
         _this.countdown--;

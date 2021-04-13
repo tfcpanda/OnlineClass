@@ -27,9 +27,15 @@ public class SmsController {
     @Resource
     private SmsService smsService;
 
+    /**
+     * 前端传递的对象是sms对象
+     * @param smsDto
+     * @return
+     */
     @RequestMapping(value = "/send", method = RequestMethod.POST)
     public ResponseDto send(@RequestBody SmsDto smsDto) {
         LOG.info("发送短信请求开始: {}", smsDto);
+        //创建一个返回Dto值
         ResponseDto responseDto = new ResponseDto();
         smsService.sendCode(smsDto);
         LOG.info("发送短信请求结束");
