@@ -16,9 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * 通用异常处理器，可以对后端异常进行处理，
  *
  */
-
-
-
 @ControllerAdvice
 public class ControllerExceptionHandler {
 private static final Logger LOG = LoggerFactory.getLogger(ControllerExceptionHandler.class);

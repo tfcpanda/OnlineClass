@@ -134,6 +134,12 @@ public class UserService {
         userMapper.updateByPrimaryKeySelective(user);
     }
 
+
+    /**
+     * 用户登录，在登录的时候防止权限。
+     * @param userDto
+     * @return
+     */
     public LoginUserDto login(UserDto userDto){
         User user = selectByLoginName(userDto.getLoginName());
         if (user == null){
@@ -165,6 +171,7 @@ public class UserService {
         // 整理所有有权限的请求，用于接口拦截
         HashSet<String> requestSet = new HashSet<>();
         if (!CollectionUtils.isEmpty(resourceDtoList)) {
+            //先判断是否为空
             for (int i = 0, l = resourceDtoList.size(); i < l; i++) {
                 ResourceDto resourceDto = resourceDtoList.get(i);
                 String arrayString = resourceDto.getRequest();

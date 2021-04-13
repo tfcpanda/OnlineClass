@@ -1,6 +1,7 @@
 package com.course.business.controller.admin;
 
 import com.course.server.dto.MemberCourseDto;
+import com.course.server.dto.PageDto;
 import com.course.server.dto.ResponseDto;
 import com.course.server.service.MemberCourseService;
 import com.course.server.util.ValidatorUtil;
@@ -20,11 +21,11 @@ public class MemberCourseController {
     private MemberCourseService memberCourseService;
 
 
-/*    *//**
+     /**
      * 列表查询
      * @param pageDto
      * @return
-     *//*
+     */
     @PostMapping("/list")
     public ResponseDto list(@RequestBody PageDto pageDto) {
         LOG.info("PageDto:{}", pageDto);
@@ -32,7 +33,7 @@ public class MemberCourseController {
         memberCourseService.list(pageDto);
         responseDto.setContent(pageDto);
         return responseDto;
-    }*/
+    }
 
     /**
      * 保存id，id有值的时候更新，没有值的时候增加

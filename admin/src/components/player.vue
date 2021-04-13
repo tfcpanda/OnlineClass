@@ -43,9 +43,11 @@ export default {
         console.log('播放器创建好了。')
       });
     },
+    //授权播放
     playVod (vod) {
       let _this = this;
       Loading.show();
+      //得到这个vod的地址
       _this.$ajax.get(process.env.VUE_APP_SERVER + '/file/admin/get-auth/' + vod).then((response)=>{
         Loading.hide();
         let resp = response.data;
@@ -64,7 +66,6 @@ export default {
             autoplay: false,
             vid: vod,
             playauth: resp.content,
-
             encryptType:1, //当播放私有加密流时需要设置。
           },function(player){
             console.log('播放器创建好了。')

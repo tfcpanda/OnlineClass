@@ -335,21 +335,30 @@ export default {
       _this.section.video = video;
       _this.section.vod = vod;
       _this.getTime();
+      //
       _this.$refs.player.playUrl(video);
       // 解决不能实时预览的问题
       _this.$forceUpdate();
     },
     /**
      * 获取时长
+     * parseInt() 函数可解析一个字符串，并返回一个整数。
+     * 可选。表示要解析的数字的基数。该值介于 2 ~ 36 之间,该参数可以省略或为0
+
+     如果省略该参数或其值为 0，则数字将以 10 为基础来解析。如果string以 “0x” 或 “0X” 开头，将以 16 为基数。
+
+     如果该参数小于 2 或者大于 36，则 parseInt() 将返回 NaN。
      */
     getTime() {
       let _this = this;
       setTimeout(function () {
+        //得到这个文件
         let ele = document.getElementById("video");
+
         _this.section.time = parseInt(ele.duration, 10);
       }, 1000);
-
     },
+
     /**
      * 播放视频
      * @param section

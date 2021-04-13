@@ -1,13 +1,14 @@
 package com.course.business.controller.admin;
 
-import com.course.server.dto.SmsDto;
 import com.course.server.dto.PageDto;
 import com.course.server.dto.ResponseDto;
 import com.course.server.service.SmsService;
-import com.course.server.util.ValidatorUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
@@ -35,11 +36,11 @@ public class SmsController {
         return responseDto;
     }
 
-    /**
+   /* *//**
      *保存id，id有值的时候更新，没有值的时候增加
      * @param smsDto
      * @return
-     */
+     *//*
     @PostMapping("/save")
     public ResponseDto save(@RequestBody SmsDto smsDto) {
         ResponseDto responseDto = new ResponseDto();
@@ -62,13 +63,13 @@ public class SmsController {
         smsService.save(smsDto);
         responseDto.setContent(smsDto);
         return responseDto;
-    }
+    }*/
 
-    /**
+/*    *//**
      *删除
      * @param id
      * @return
-     */
+     *//*
     @DeleteMapping("/delete/{id}")
     public ResponseDto delete(@PathVariable String id) {
         ResponseDto responseDto = new ResponseDto();
@@ -76,5 +77,5 @@ public class SmsController {
         smsService.delete(id);
 
         return responseDto;
-    }
+    }*/
 }

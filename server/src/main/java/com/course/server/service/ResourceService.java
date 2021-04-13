@@ -99,11 +99,14 @@ public class ResourceService {
      */
     @Transactional
     public void saveJson(String json) {
+        //把jason转换成树，
         List<ResourceDto> jsonList = JSON.parseArray(json, ResourceDto.class);
         List<ResourceDto> list = new ArrayList<>();
         if (!CollectionUtils.isEmpty(jsonList)) {
+            //第一层都是空节点。
             for (ResourceDto d: jsonList) {
                 d.setParent("");
+                //调用递归放如list里面。
                 add(list, d);
             }
         }
@@ -122,6 +125,7 @@ public class ResourceService {
      */
     public void add(List<ResourceDto> list, ResourceDto dto) {
         list.add(dto);
+        //里面有没有children。
         if (!CollectionUtils.isEmpty(dto.getChildren())) {
             for (ResourceDto d: dto.getChildren()) {
                 d.setParent(dto.getId());

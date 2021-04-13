@@ -20,6 +20,7 @@
       <div class="col-md-6">
 
         <h1>树</h1>
+<!--  放一颗树在里面      -->
         <ul id="tree" class="ztree"></ul>
       </div>
     </div>
@@ -55,6 +56,7 @@ export default {
     list() {
       let _this = this;
       Loading.show();
+      //加载全部的树。
       _this.$ajax.get(process.env.VUE_APP_SERVER + '/system/admin/resource/load-tree').then((res)=>{
         Loading.hide();
         let response = res.data;
@@ -78,6 +80,7 @@ export default {
     let json = JSON.parse(_this.resourceStr);
 
     Loading.show();
+    //用
     _this.$ajax.post(process.env.VUE_APP_SERVER + '/system/admin/resource/save', json).then((response) => {
       Loading.hide();
       let resp = response.data;
@@ -115,6 +118,7 @@ export default {
     let _this = this;
     let setting = {
       data: {
+        //把数据放进树里面。
         simpleData: {
           idKey: "id",
           pIdKey: "parent",

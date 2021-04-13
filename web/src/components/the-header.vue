@@ -79,6 +79,7 @@ export default {
           Tool.setLoginMember(null);
           _this.loginMember = {};
           Toast.success("退出登录成功");
+          //路由退出
           _this.$router.push("/");
         } else {
           Toast.warning(resp.message)

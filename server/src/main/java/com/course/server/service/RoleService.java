@@ -108,7 +108,7 @@ public class RoleService {
         example.createCriteria().andRoleIdEqualTo(roleId);
         roleResourceMapper.deleteByExample(example);
 
-        // 保存角色资源
+        // 保存角色资源，把id有的资源一条条的存进数据库中。
         for (int i = 0; i < resourceIds.size(); i++) {
             RoleResource roleResource = new RoleResource();
             roleResource.setId(UuidUtil.getShortUuid());
@@ -124,10 +124,14 @@ public class RoleService {
      */
     public List<String> listResource(String roleId) {
         RoleResourceExample example = new RoleResourceExample();
+        //按照角色id查询。
         example.createCriteria().andRoleIdEqualTo(roleId);
         List<RoleResource> roleResourceList = roleResourceMapper.selectByExample(example);
+        //查找在次角色id下的所有id值
+        //变成一个String列
         List<String> resourceIdList = new ArrayList<>();
         for (int i = 0, l = roleResourceList.size(); i < l; i++) {
+            //把全部的该角色id下的所有资源的值给前端。
             resourceIdList.add(roleResourceList.get(i).getResourceId());
         }
         return resourceIdList;
@@ -142,6 +146,7 @@ public class RoleService {
         List<String> userIdList = roleDto.getUserIds();
         // 清空库中所有的当前角色下的记录
         RoleUserExample example = new RoleUserExample();
+        //角色的id值和传进来的id值相同的，都删除
         example.createCriteria().andRoleIdEqualTo(roleId);
         roleUserMapper.deleteByExample(example);
 

@@ -126,6 +126,7 @@ public class UserController {
     @GetMapping("/logout")
     public ResponseDto logout(HttpServletRequest request) {
         ResponseDto responseDto = new ResponseDto();
+        //登录的值清空。
         request.getSession().removeAttribute(Constants.LOGIN_USER);
         return responseDto;
     }

@@ -44,18 +44,11 @@ public class RoleController {
     @PostMapping("/save")
     public ResponseDto save(@RequestBody RoleDto roleDto) {
         ResponseDto responseDto = new ResponseDto();
-
         //后端校验填入信息
-
-
-            ValidatorUtil.require(roleDto.getName(), "角色");
-            ValidatorUtil.length(roleDto.getName(), "角色", 1, 50);
-
-
-            ValidatorUtil.require(roleDto.getDesc(), "描述");
-            ValidatorUtil.length(roleDto.getDesc(), "描述", 1, 100);
-
-
+        ValidatorUtil.require(roleDto.getName(), "角色");
+        ValidatorUtil.length(roleDto.getName(), "角色", 1, 50);
+        ValidatorUtil.require(roleDto.getDesc(), "描述");
+        ValidatorUtil.length(roleDto.getDesc(), "描述", 1, 100);
         roleService.save(roleDto);
         responseDto.setContent(roleDto);
         return responseDto;
@@ -116,6 +109,7 @@ public class RoleController {
     /**
      * 加载用户
      * @param roleId
+     * 根据角色的id值查找user
      */
     @GetMapping("/list-user/{roleId}")
     public ResponseDto listUser(@PathVariable String roleId) {

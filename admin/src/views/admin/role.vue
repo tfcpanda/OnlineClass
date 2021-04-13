@@ -122,11 +122,13 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title">角色用户关联配置</h4>
           </div>
+
           <div class="modal-body">
             <div class="row">
               <div class="col-md-6">
                 <table id="user-table" class="table table-hover">
                   <tbody>
+<!--          所有的角色     -->
                   <tr v-for="user in users">
                     <td>{{user.loginName}}</td>
                     <td class="text-right">
@@ -141,6 +143,7 @@
               <div class="col-md-6">
                 <table id="role-user-table" class="table table-hover">
                   <tbody>
+<!--          根据roleUser查找用户        -->
                   <tr v-for="user in roleUsers">
                     <td>{{user.loginName}}</td>
                     <td class="text-right">
@@ -154,6 +157,8 @@
               </div>
             </div>
           </div>
+
+
           <div class="modal-footer">
             <button type="button" class="btn btn-white btn-default btn-round" data-dismiss="modal">
               <i class="ace-icon fa fa-times"></i>
@@ -282,7 +287,9 @@ export default {
 
     /**
      * 点击【编辑】
+     * 点击按钮弹出模态框。
      */
+
     editResource(role) {
       let _this = this;
       _this.role = $.extend({}, role);
@@ -292,6 +299,7 @@ export default {
 
     /**
      * 加载资源树
+     * 获得树上的所有节点。
      */
     loadResource() {
       let _this = this;
@@ -313,6 +321,7 @@ export default {
     initTree() {
       let _this = this;
       let setting = {
+        //前面的check方框
         check: {
           enable: true
         },
@@ -332,9 +341,11 @@ export default {
 
     /**
      * 资源模态框点击【保存】
+     * 资源模态框关联表添加
      */
     saveResource() {
       let _this = this;
+      //得到勾选的节点的数据。
       let resources = _this.zTree.getCheckedNodes();
       console.log("勾选的资源：", resources);
 
@@ -345,7 +356,9 @@ export default {
       }
 
       _this.$ajax.post(process.env.VUE_APP_SERVER + '/system/admin/role/save-resource', {
+        //这个是角色的id
         id: _this.role.id,
+        //还有刚才保存的数组
         resourceIds: resourceIds
       }).then((response)=>{
         let resp = response.data;
@@ -362,6 +375,7 @@ export default {
      */
     listRoleResource() {
       let _this = this;
+      //参数就是角色id
       _this.$ajax.get(process.env.VUE_APP_SERVER + '/system/admin/role/list-resource/' + _this.role.id).then((response)=>{
         let resp = response.data;
         let resources = resp.content;
@@ -376,6 +390,7 @@ export default {
     },
     /**
      * 点击【用户】
+     * 增加角色之间的关联。
      */
     editUser(role) {
       let _this = this;
@@ -386,6 +401,8 @@ export default {
 
     /**
      * 查询所有用户
+     *
+     * 在左边
      */
     listUser() {
       let _this = this;
@@ -405,6 +422,7 @@ export default {
     },
     /**
      * 角色中增加用户
+     * 把左边放到右边
      */
     addUser(user) {
       let _this = this;
@@ -430,16 +448,17 @@ export default {
 
     /**
      * 角色用户模态框点击【保存】
+     * 把没有资源的赋予权限。
      */
     saveUser() {
       let _this = this;
       let users = _this.roleUsers;
-
       // 保存时，只需要保存用户id，所以使用id数组进行参数传递
       let userIds = [];
       for (let i = 0; i < users.length; i++) {
         userIds.push(users[i].id);
       }
+      //角色的id值和用户的id的值
       _this.$ajax.post(process.env.VUE_APP_SERVER + '/system/admin/role/save-user', {
         id: _this.role.id,
         userIds: userIds

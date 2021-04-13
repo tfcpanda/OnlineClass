@@ -31,13 +31,6 @@ public class RoleUserService {
         List<RoleUser> roleUserList = roleUserMapper.selectByExample(roleUserExample);
         PageInfo<RoleUser> pageInfo = new PageInfo<>(roleUserList);
         pageDto.setTotal(pageInfo.getTotal());
-//        List<RoleUserDto> roleUserDtoList = new ArrayList<RoleUserDto>();
-//        for (int i = 0, l = roleUserList.size(); i < l; i++) {
-//            RoleUser roleUser = roleUserList.get(i);
-//            RoleUserDto roleUserDto = new RoleUserDto();
-//            BeanUtils.copyProperties(roleUser, roleUserDto);
-//            roleUserDtoList.add(roleUserDto);
-//        }
         List<RoleUserDto> roleUserDtoList = CopyUtil.copyList(roleUserList, RoleUserDto.class);
         pageDto.setList(roleUserDtoList);
 
