@@ -78,7 +78,7 @@ export default {
   },
   methods: {
     /**
-     * 查询课程列表
+     * 分类查询查询课程列表
      */
     listCourse(page) {
       let _this = this;

@@ -97,11 +97,15 @@ public class MemberCourseService {
      * @param memberCourseDto
      */
     public MemberCourseDto enroll(MemberCourseDto memberCourseDto) {
+        //
         MemberCourse memberCourseDb = this.select(memberCourseDto.getMemberId(), memberCourseDto.getCourseId());
+        //如果数据库中为空的
         if (memberCourseDb == null) {
+            //如果就把Dto层复制到实体层
             MemberCourse memberCourse = CopyUtil.copy(memberCourseDto, MemberCourse.class);
+            //然后全部添加进去。
             this.insert(memberCourse);
-            // 将数据库信息全部返回，包括id, at
+            //实体层的数据给Dto层。
             return CopyUtil.copy(memberCourse, MemberCourseDto.class);
         } else {
             // 如果已经报名，则直接返回已报名的信息
@@ -113,14 +117,18 @@ public class MemberCourseService {
      * 根据memberId和courseId查询记录
      */
     public MemberCourse select(String memberId, String courseId) {
+        //sql查询
         MemberCourseExample example = new MemberCourseExample();
         example.createCriteria()
                 .andCourseIdEqualTo(courseId)
                 .andMemberIdEqualTo(memberId);
+        //先查询是否有这个id
         List<MemberCourse> memberCourseList = memberCourseMapper.selectByExample(example);
+        //如果这个是空的就返回null
         if (CollectionUtils.isEmpty(memberCourseList)) {
             return null;
         } else {
+            //然后得到course中的数据。
             return memberCourseList.get(0);
         }
     }

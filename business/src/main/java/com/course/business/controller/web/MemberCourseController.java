@@ -33,22 +33,14 @@ public class MemberCourseController {
         // 保存校验
         ValidatorUtil.require(memberCourseDto.getMemberId(), "会员id");
         ValidatorUtil.require(memberCourseDto.getCourseId(), "课程id");
-
+        //实例化对象
         ResponseDto responseDto = new ResponseDto();
+        //订阅方法
         memberCourseDto = memberCourseService.enroll(memberCourseDto);
         responseDto.setContent(memberCourseDto);
         return responseDto;
     }
 
-    /**
-     * 删除
-     */
-    @DeleteMapping("/delete/{id}")
-    public ResponseDto delete(@PathVariable String id) {
-        ResponseDto responseDto = new ResponseDto();
-        memberCourseService.delete(id);
-        return responseDto;
-    }
 
     /**
      * 得到报名信息

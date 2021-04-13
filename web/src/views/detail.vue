@@ -126,6 +126,7 @@ export default {
   },
   mounted() {
     let _this = this;
+    //页面跳转的时候得到他的id
     _this.id = _this.$route.query.id;
     _this.findCourse();
   },
@@ -186,16 +187,20 @@ export default {
       _this.$refs.modalPlayer.playVod(section.vod);
     },
     /**
-     * 报名
+     * 报名方法
      */
     enroll() {
       let _this = this;
+      //得到他的角色名
       let loginMember = Tool.getLoginMember();
+      //如果为空就先登录
       if (Tool.isEmpty(loginMember)) {
         Toast.warning("请先登录");
         return;
       }
+      //参数为课程id,用户id
       _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/web/member-course/enroll', {
+        //参数
         courseId: _this.course.id,
         memberId: loginMember.id
       }).then((response)=>{
