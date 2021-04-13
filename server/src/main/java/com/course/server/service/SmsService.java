@@ -161,17 +161,24 @@ public class SmsService {
         SmsExample.Criteria criteria = example.createCriteria();
         // 查找5分钟内同手机号同操作发送记录
         criteria.andMobileEqualTo(smsDto.getMobile()).andUseEqualTo(smsDto.getUse()).andAtGreaterThan(new Date(new Date().getTime() - 1 * 60 * 1000));
+        //查询他的数据库
         List<Sms> smsList = smsMapper.selectByExample(example);
-
+        //查询结果不为空或者值大与0
         if (smsList != null && smsList.size() > 0) {
+            //得到他的数据的code
             Sms smsDb = smsList.get(0);
+            //如果数据库的code和传过来的code不相同
             if (!smsDb.getCode().equals(smsDto.getCode())) {
+                //验证不正确
                 LOG.warn("短信验证码不正确");
                 throw new BusinessException(BusinessExceptionCode.MOBILE_CODE_ERROR);
             } else {
+                //如果相同就把他改成用过了。
                 smsDb.setStatus(SmsStatusEnum.USED.getCode());
+                //并把它用过了的消息更新到数据库中。
                 smsMapper.updateByPrimaryKey(smsDb);
             }
+            //如果为空就直接返回没有值
         } else {
             LOG.warn("短信验证码不存在或已过期，请重新发送短信");
             throw new BusinessException(BusinessExceptionCode.MOBILE_CODE_EXPIRED);

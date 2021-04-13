@@ -45,9 +45,13 @@ public class MemberController {
         memberDto.setPassword(DigestUtils.md5DigestAsHex(memberDto.getPassword().getBytes()));
         // 校验短信验证码
         SmsDto smsDto = new SmsDto();
+        //得到这个人的手机号码
         smsDto.setMobile(memberDto.getMobile());
+        //得到他的验证码
         smsDto.setCode(memberDto.getSmsCode());
+        //把验证码改成已经过
         smsDto.setUse(SmsUseEnum.REGISTER.getCode());
+        //校验他的验证码
         smsService.validCode(smsDto);
         LOG.info("短信验证码校验通过");
 

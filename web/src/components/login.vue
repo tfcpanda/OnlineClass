@@ -307,6 +307,8 @@ export default {
       _this.MODAL_STATUS = _this.STATUS_FORGET
     },
 
+
+    //注册方法
     register() {
       let _this = this;
       // 提交之前，先校验所有输入框
@@ -319,10 +321,10 @@ export default {
       if (!validateResult) {
         return;
       }
+      //把得到的密码用md5加密
+      _this.memberRegister.password = hex_md5(_this.memberRegister.passwordOriginalpasswordOriginal + KEY);
 
-      _this.memberRegister.password = hex_md5(_this.memberRegister.passwordOriginal + KEY);
-
-      // 调服务端注册接口
+      // 调服务端注册接口，把整个注册对象当作参数传送。
       _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/web/member/register', _this.memberRegister).then((response) => {
         let resp = response.data;
         if (resp.success) {
