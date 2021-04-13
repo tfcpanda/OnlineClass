@@ -70,11 +70,14 @@ public class CourseService {
      * 新课列表查询，只查询已发布的，按创建日期倒序,用于主页
      */
     public List<CourseDto> listNew(PageDto pageDto) {
+        //值前面给了。
         PageHelper.startPage(pageDto.getPage(), pageDto.getSize());
         CourseExample courseExample = new CourseExample();
         courseExample.createCriteria().andStatusEqualTo(CourseStatusEnum.PUBLISH.getCode());
         courseExample.setOrderByClause("created_at desc");
+        //倒叙查询
         List<Course> courseList = courseMapper.selectByExample(courseExample);
+        //把查询的对象放到Dto层
         return CopyUtil.copyList(courseList, CourseDto.class);
     }
 

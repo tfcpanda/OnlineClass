@@ -60,13 +60,15 @@ export default {
     listNew() {
       let _this = this;
 
-      // 新上好课不经常变，又经常被访问，适合用缓存
-      // 判断是否有缓存
+      //放到缓存中
       let news = SessionStorage.get("news");
+      //如果不为空
       if (!Tool.isEmpty(news)) {
+        //赋值
         _this.news = news;
         return;
       }
+      //前端不传参数
       _this.$ajax.get(process.env.VUE_APP_SERVER + '/business/web/course/list-new').then((response) => {
         console.log("查询新上好课结果：", response);
         let resp = response.data;

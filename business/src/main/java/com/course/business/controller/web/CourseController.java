@@ -31,10 +31,13 @@ public class CourseController {
      */
     @GetMapping("/list-new")
     public ResponseDto listNew() {
+        //创建对象
         PageDto pageDto = new PageDto();
+        //放值
         pageDto.setPage(1);
         pageDto.setSize(3);
         ResponseDto responseDto = new ResponseDto();
+        //创建返回对象
         List<CourseDto> courseDtoList = courseService.listNew(pageDto);
         responseDto.setContent(courseDtoList);
         return responseDto;
@@ -53,6 +56,8 @@ public class CourseController {
         return responseDto;
     }
 
+
+    //详细查询
     @GetMapping("/find/{id}")
     public ResponseDto findCourse(@PathVariable String id) {
         LOG.info("查找课程开始：{}", id);
