@@ -288,6 +288,7 @@ export default {
   name: "business-course",
   data: function () {
     return {
+      //数据绑定
       course: {},
       courses: [],
       COURSE_LEVEL: COURSE_LEVEL,
@@ -307,10 +308,14 @@ export default {
     }
   },
   mounted: function () {
+    //初始化
     let _this = this;
     _this.$refs.pagination.size = 5;
+    //加载所有的类
     _this.allCategory();
+    //加载所有的老师
     _this.allTeacher();
+    //加载第课程列表
     _this.list(1);
     // sidebar激活样式方法一
     // this.$parent.activeSidebar("business-course-sidebar");
@@ -323,11 +328,12 @@ export default {
     add() {
       let _this = this;
       _this.course = {
+        //分页总数+1
         sort: _this.$refs.pagination.total + 1
       };
-
+      //树的勾选框都为空
       _this.tree.checkAllNodes(false);
-
+      //模态框显示
       $("#form-modal").modal("show");
     },
 
@@ -336,9 +342,10 @@ export default {
      */
     edit(course) {
       let _this = this;
+      //修改方法，把之前模框的数据放进修改的框里。
       _this.course = $.extend({}, course);
       _this.listCategory(course.id);
-
+      //模态框显示
       $("#form-modal").modal("show");
     },
 
@@ -349,6 +356,7 @@ export default {
     list(page) {
       let _this = this;
       Loading.show();
+      //整体列表查询传递参数:page，size
       _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/course/list', {
         page: page,
         size: _this.$refs.pagination.size,
@@ -356,6 +364,7 @@ export default {
         Loading.hide();
         let resp = response.data;
         _this.courses = resp.content.list;
+        //pagination传数据
         _this.$refs.pagination.render(page, resp.content.total);
 
       })
@@ -366,43 +375,43 @@ export default {
      */
     save(page) {
       let _this = this;
-
       // 保存校验
       if (1 != 1
-
           || !Validator.require(_this.course.name, "名称")
           || !Validator.length(_this.course.name, "名称", 1, 50)
           || !Validator.length(_this.course.summary, "概述", 1, 2000)
-
       ) {
         return;
       }
-
-
+      //初始化这棵树。
       let categorys = _this.tree.getCheckedNodes();
-
+      //选择验证
       if (Tool.isEmpty(categorys)) {
         Toast.warning("请选择分类！");
         return;
       }
+      //把选择的分类保存到课程中
       _this.course.categorys = categorys;
 
-
-      if (Tool.isEmpty(categorys)) {
+   /*   if (Tool.isEmpty(categorys)) {
         Toast.warning("请选择分类！");
         return;
       }
-      _this.course.categorys = categorys;
+      _this.course.categorys = categorys;*/
 
       Loading.show();
+      //传递整个对象作为参数。
       _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/course/save', _this.course).then((response) => {
         Loading.hide();
         let resp = response.data;
+        //如果返回值为true模态框隐藏
         if (resp.success) {
           $("#form-modal").modal("hide");
+          //刷新页面
           _this.list(1);
           Toast.success("保存成功！");
         } else {
+          //弹出警告
           Toast.warning(resp.message)
         }
       })
@@ -415,10 +424,12 @@ export default {
       let _this = this;
       Confirm.show("删除课程后不可恢复，确认删除？", function () {
         Loading.show();
+        //传递id作为参数。
         _this.$ajax.delete(process.env.VUE_APP_SERVER + '/business/admin/course/delete/' + id).then((response) => {
           Loading.hide();
           let resp = response.data;
           if (resp.success) {
+            //刷新页面
             _this.list(1);
             Toast.success("删除成功！");
           }
@@ -431,10 +442,14 @@ export default {
      */
     toChapter(course) {
       let _this = this;
+      //存进Session
       SessionStorage.set(SESSION_KEY_COURSE, course);
+      //路由跳转
       _this.$router.push("/business/chapter");
     },
 
+
+    //查询所有类别
     allCategory() {
       let _this = this;
       Loading.show();
@@ -442,20 +457,23 @@ export default {
         Loading.hide();
         let resp = response.data;
         _this.categorys = resp.content;
-
+        //初始化这颗树
         _this.initTree();
       })
     },
 
+
+    //初始化树。
     initTree() {
       let _this = this;
-
       let setting = {
         check: {
+          //默认都为空
           enable: true
         },
         data: {
           simpleData: {
+            //对应数据库
             idKey: "id",
             pIdKey: "parent",
             rootPId: "00000000",
@@ -463,23 +481,20 @@ export default {
           }
         }
       };
-
       let zNodes = _this.categorys;
-
-
       _this.tree = $.fn.zTree.init($("#tree"), setting, zNodes);
-
       // 展开所有的节点
       // _this.tree.expandAll(true);
     },
 
     /**
-     * 查找课程下所有分类
+     * 查找课程下所有分类，根据所有课程id查找所有的已有的分类
      * @param courseId
      */
     listCategory(courseId) {
       let _this = this;
       Loading.show();
+      //传递的属性值是courseid
       _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/course/list-category/' + courseId).then((res) => {
         Loading.hide();
         console.log("查找课程下所有分类结果：", res);
@@ -495,10 +510,11 @@ export default {
       })
     },
     /**
-     * 打开内容编辑框
+     * 打开内容编辑框,详细内容开发。
      */
     editContent(course) {
       let _this = this;
+      //定义id等于courseid
       let id = course.id;
       _this.course = course;
       $("#content").summernote({
@@ -510,13 +526,15 @@ export default {
       _this.saveContentLabel = "";
 
       Loading.show();
+      //查询后端content数据。
       _this.$ajax.get(process.env.VUE_APP_SERVER + '/business/admin/course/find-content/' + id).then((response) => {
         Loading.hide();
         let resp = response.data;
-
+        //点击后面不会被关闭模态框
         if (resp.success) {
           $("#course-content-modal").modal({backdrop: 'static', keyboard: false});
           if (resp.content) {
+            //把查询到的数据放进模态框
             $("#content").summernote('code', resp.content.content);
           }
           // 定时自动保存
@@ -535,19 +553,23 @@ export default {
 
     /**
      * 保存内容
+     *
+     * 取值：$('#summernote').summernote('code')
+     *  赋值：$('#summernote').summernote('code', this.richContent)
      */
     saveContent() {
       let _this = this;
+      //先取模态框中的值
       let content = $("#content").summernote("code");
+      //传递course的id作为值。
       _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/course/save-content', {
         id: _this.course.id,
+        //之前取出来的值也放进去。
         content: content
       }).then((response) => {
         Loading.hide();
         let resp = response.data;
         if (resp.success) {
-
-
           // Toast.success("内容保存成功");
           // let now = Tool.dateFormat("yyyy-MM-dd hh:mm:ss");
           let now = Tool.dateFormat("mm:ss");
@@ -557,6 +579,9 @@ export default {
         }
       });
     },
+
+
+    //打开模态框。
     openSortModal(course) {
       let _this = this;
       _this.sort = {
@@ -572,34 +597,43 @@ export default {
      */
     updateSort() {
       let _this = this;
+      //如果新的排序等于旧的排序，那就没有变化
       if (_this.sort.newSort === _this.sort.oldSort) {
         Toast.warning("排序没有变化");
         return;
       }
       Loading.show();
+      //保存前端的排序。
       _this.$ajax.post(process.env.VUE_APP_SERVER + "/business/admin/course/sort", _this.sort).then((res) => {
         let response = res.data;
-
+        //如果排序增加成功
         if (response.success) {
           Toast.success("更新排序成功");
+          //模态框关闭
           $("#course-sort-modal").modal("hide");
+          //刷新页面
           _this.list(1);
         } else {
           Toast.error("更新排序失败");
         }
       });
     },
+
     allTeacher() {
       let _this = this;
       Loading.show();
+      //查询所有的老师的信息，用来在上面显示。
       _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/teacher/all').then((response) => {
         Loading.hide();
         let resp = response.data;
+        //赋值给数据。
         _this.teachers = resp.content;
       })
     },
+
     afterUpload(resp) {
       let _this = this;
+      //图片赋值，
       let image = resp.content.path;
       _this.course.image = image;
       // 解决不能实时预览的问题

@@ -5,7 +5,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * @author 田付成
- * @date 2021/3/16 21:24
+ * @date 2021/3/16 21:24con
  */
 public class ValidatorUtil {
 

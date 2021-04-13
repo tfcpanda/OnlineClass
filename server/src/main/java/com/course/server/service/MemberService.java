@@ -42,13 +42,6 @@ public class MemberService {
         List<Member> memberList = memberMapper.selectByExample(memberExample);
         PageInfo<Member> pageInfo = new PageInfo<>(memberList);
         pageDto.setTotal(pageInfo.getTotal());
-//        List<MemberDto> memberDtoList = new ArrayList<MemberDto>();
-//        for (int i = 0, l = memberList.size(); i < l; i++) {
-//            Member member = memberList.get(i);
-//            MemberDto memberDto = new MemberDto();
-//            BeanUtils.copyProperties(member, memberDto);
-//            memberDtoList.add(memberDto);
-//        }
         List<MemberDto> memberDtoList = CopyUtil.copyList(memberList, MemberDto.class);
         pageDto.setList(memberDtoList);
 

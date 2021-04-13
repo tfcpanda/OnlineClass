@@ -41,7 +41,6 @@ public class SectionService {
         if (!StringUtils.isEmpty(sectionPageDto.getChapterId())){
             criteria.andChapterIdEqualTo(sectionPageDto.getChapterId());
         }
-
         sectionExample.setOrderByClause("sort asc");
         List<Section> sectionList = sectionMapper.selectByExample(sectionExample);
         PageInfo<Section> pageInfo = new PageInfo<>(sectionList);

@@ -41,11 +41,8 @@ public class MemberController {
         ValidatorUtil.require(memberDto.getPassword(), "密码");
         ValidatorUtil.length(memberDto.getName(), "昵称", 1, 50);
         ValidatorUtil.length(memberDto.getPhoto(), "头像url", 1, 200);
-
         // 密码加密
         memberDto.setPassword(DigestUtils.md5DigestAsHex(memberDto.getPassword().getBytes()));
-
-
         // 校验短信验证码
         SmsDto smsDto = new SmsDto();
         smsDto.setMobile(memberDto.getMobile());

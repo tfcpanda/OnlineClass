@@ -1,26 +1,36 @@
 <template>
   <div class="pagination" role="group" aria-label="分页">
+<!--  第一页  -->
     <button type="button" class="btn btn-default btn-white btn-round"
             v-bind:disabled="page === 1"
             v-on:click="selectPage(1)">
       1
     </button>
+<!--  上一页  -->
     <button type="button" class="btn btn-default btn-white btn-round"
             v-bind:disabled="page === 1"
             v-on:click="selectPage(page - 1)">
       上一页
     </button>
+
+
+
+<!--    中间显示的页数，根据计算的来，循环pages里面的数-->
+
     <button v-for="p in pages" v-bind:id="'page-' + p"
             type="button" class="btn btn-default btn-white btn-round"
             v-bind:class="{'btn-primary active':page == p}"
             v-on:click="selectPage(p)">
       {{p}}
     </button>
+<!--  下一页  -->
     <button type="button" class="btn btn-default btn-white btn-round"
             v-bind:disabled="page === pageTotal"
             v-on:click="selectPage(page + 1)">
       下一页
     </button>
+
+<!--  最后一页，如果当前页码等于最后页码，直接显示为1  -->
     <button type="button" class="btn btn-default btn-white btn-round"
             v-bind:disabled="page === pageTotal"
             v-on:click="selectPage(pageTotal)">
@@ -45,6 +55,7 @@
 <script>
 export default {
   name: 'pagination',
+  //给父组件用的,父组件前面设置了，item的值
   props: {
     list: {
       type: Function,
@@ -52,6 +63,8 @@ export default {
     },
     itemCount: Number // 显示的页码数，比如总共有100页，只显示10页，其它用省略号表示
   },
+
+  //内部组件使用
   data: function () {
     return {
       total: 0, // 总行数
@@ -63,7 +76,7 @@ export default {
   },
   methods: {
     /**
-     * 渲染分页组件
+     * 渲染分页组件,前端传进来的数据。
      * @param page
      * @param total
      */
@@ -73,11 +86,12 @@ export default {
       _this.total = total;
       //计算分页的页数
       _this.pageTotal = Math.ceil(total / _this.size);
+      //设置按钮组，组数是5或者是自己计算出来。
       _this.pages = _this.getPageItems(_this.pageTotal, page, _this.itemCount || 5);
     },
 
     /**
-     * 查询某一页
+     * 查询某一页，调用父组件的方法，查询特定页数。
      * @param page
      */
     selectPage(page) {
@@ -91,16 +105,17 @@ export default {
       if (this.page !== page) {
         _this.page = page;
         if (_this.list) {
+          //外部传进来的list
           _this.list(page);
         }
       }
     },
 
     /**
-     * 当前要显示在页面上的页码
+     * 当前要显示在页面上的页码，
      * @param total 总共多少页
      * @param current  现在是那一页
-     * @param length
+     * @param length   组数。
      * @returns {Array}
      */
     getPageItems(total, current, length) {

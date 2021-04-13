@@ -28,8 +28,7 @@ public class GatewayApplication {
     }
 
     /**
-     * 配置跨域
-     *
+     * 配置跨域,直接在gateway中配置。
      * @return
      */
     @Bean

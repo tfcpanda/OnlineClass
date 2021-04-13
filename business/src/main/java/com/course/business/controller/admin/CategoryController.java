@@ -42,6 +42,7 @@ public class CategoryController {
         LOG.info("PageDto:{}", pageDto);
         //ResponseDto是自定义的返回类型，用来测试接口返回正确还是错误，可以自定义返回码。
         ResponseDto responseDto = new ResponseDto();
+        //
         categoryService.list(pageDto);
         //可以自定义返回类型，content字段是一个泛型
         responseDto.setContent(pageDto);
@@ -87,7 +88,6 @@ public class CategoryController {
         ResponseDto responseDto = new ResponseDto();
         LOG.info("id:{}", id);
         categoryService.delete(id);
-
         return responseDto;
     }
 }

@@ -3,7 +3,7 @@
   <div>
     <h4 class="lighter">
       <i class="ace-icon fa fa-hand-o-right icon-animated-hand-pointer blue"></i>
-      <router-link to="/business/course" class="pink"> {{course.name}} </router-link>
+      <router-link to="/business/course" class="pink"> {{ course.name }}</router-link>
     </h4>
     <hr>
     <p>
@@ -19,14 +19,14 @@
         <i class="ace-icon fa fa-edit red2"></i>
         新增
       </button>
-      <!--刷新按钮-->
-      &nbsp;
+      <!--刷新按钮，刷新回到第一页-->
       <button v-on:click="list(1)" class="btn btn-white btn-default btn-round">
 
         <i class="ace-icon fa fa-refresh red2"></i>
         刷新
       </button>
     </p>
+    <!--  回调函数  -->
     <pagination ref="pagination" v-bind:list="list" v-bind:itemCount="8"></pagination>
 
     <table id="sample-table-1" class="table table-striped table-bordered table-hover">
@@ -42,7 +42,6 @@
       <tr v-for="chapter in chapters">
         <td>{{ chapter.id }}</td>
         <td>{{ chapter.name }}</td>
-
 
 
         <td>
@@ -115,13 +114,14 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">名称</label>
                 <div class="col-sm-10">
+<!--           v-model不仅可以获取值，还可以得到输入框的值       -->
                   <input v-model="chapter.name" class="form-control" placeholder="名称">
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label">课程</label>
                 <div class="col-sm-10">
-                  <p class="form-control-static">{{course.name}}</p>
+                  <p class="form-control-static">{{ course.name }}</p>
                 </div>
               </div>
             </form>
@@ -145,6 +145,7 @@ export default {
   name: "chapter",
   data: function () {
     return {
+      //数据绑定copyProperties
       chapter: {},
       chapters: [],
       course: {},
@@ -152,15 +153,19 @@ export default {
   },
   mounted: function () {
     let _this = this;
+    //分页默认每页5条数据。
     _this.$refs.pagination.size = 5;
+    //从Session中得到course或者为空
     let course = SessionStorage.get(SESSION_KEY_COURSE) || {};
+    //如果为空的，就跳回主页。
     if (Tool.isEmpty(course)) {
       _this.$router.push("/welcome");
     }
     _this.course = course;
+    //初始化加载，默认显示分页第一页。
     _this.list(1);
     //激活样式之一
-     this.$parent.activeSidebar("business-chapter-sidebar");
+    this.$parent.activeSidebar("business-chapter-sidebar");
 
   },
   methods: {
@@ -169,7 +174,9 @@ export default {
      */
     add() {
       let _this = this;
+      //数据清空。
       _this.chapter = {};
+      //显示模态框
       $("#form-modal").modal("show");
     },
 
@@ -180,7 +187,10 @@ export default {
      */
     edit(chapter) {
       let _this = this;
+      //数据绑定，点击显示模态框的时候将模态框的数据，放到里面。
+      //jquery方法，赋值chapter到空对象里面。
       _this.chapter = $.extend({}, chapter);
+      //显示模态框。
       $("#form-modal").modal("show");
 
     },
@@ -193,14 +203,20 @@ export default {
       let _this = this;
       Loading.show();
       _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/chapter/list', {
+        //前端传递数据，page当前页码
         page: page,
+        //每页的多少数据，vue语法，获取子组件的值。
         size: _this.$refs.pagination.size,
+        //对应课程的id
         courseId: _this.course.id
       }).then((response) => {
         Loading.hide();
         console.log("查询大章节列表结果：", response);
+        //设置返回值response.data为resp。
         let resp = response.data;
+        //前后端交互的值为，为后端返回的content里面的list。
         _this.chapters = resp.content.list;
+        //给组件里面的传值。
         _this.$refs.pagination.render(page, resp.content.total);
       })
     },
@@ -213,23 +229,26 @@ export default {
       let _this = this;
 
       if (!Validator.require(_this.chapter.name, "名称")) {
-          // || !Validator.length(_this.chapter.courseId, "课程Id", 1, 8)
+        // || !Validator.length(_this.chapter.courseId, "课程Id", 1, 8)
         return;
       }
       _this.chapter.courseId = _this.course.id;
 
       Loading.show();
+      //chapter作为参数传递
       _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/chapter/save',
           _this.chapter).then((response) => {
         Loading.hide();
         console.log("增加大章节列表结果：", response);
         let resp = response.data;
+        //responseDto中的值
         if (resp.success) {
           $("#form-modal").modal("hide");
           _this.list(1);
           Toast.success("新增成功！");
 
         } else {
+          //后端返回的值
           Toast.warning(resp.message);
         }
       })
@@ -247,8 +266,9 @@ export default {
           Loading.hide();
           console.log("删除大章节列表结果：", response);
           let resp = response.data;
+          //默认为
           if (resp.success) {
-
+            //删除成功之后，再次查询
             _this.list(1);
             Toast.success("删除成功！");
           }
@@ -256,30 +276,7 @@ export default {
 
       });
 
-      // Swal.fire({
-      //   title: '确认删除?',
-      //   text: "删除后不可恢复!",
-      //   icon: 'warning',
-      //   showCancelButton: true,
-      //   confirmButtonColor: '#3085d6',
-      //   cancelButtonColor: '#dd3333',
-      //   confirmButtonText: 'Yes, delete it!'
-      // }).then((result) => {
-      //   if (result.isConfirmed) {
-      //     Loading.show();
-      //     _this.$ajax.delete('http://127.0.0.1:9000/business/admin/chapter/delete/' + id).then((response) => {
-      //       Loading.hide();
-      //       console.log("删除大章节列表结果：", response);
-      //       let resp = response.data;
-      //       if (resp.success) {
-      //         Toast.success("删除成功！");
-      //         _this.list(1);
-      //
-      //       }
-      //     })
-      //
-      //   }
-      // })
+
 
 
     },

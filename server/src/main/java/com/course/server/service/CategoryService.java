@@ -27,19 +27,17 @@ public class CategoryService {
      * @param pageDto
      */
     public void list(PageDto pageDto) {
+        //分页，
         PageHelper.startPage(pageDto.getPage(), pageDto.getSize());
+        //mybatis查询
         CategoryExample categoryExample = new CategoryExample();
         categoryExample.setOrderByClause("sort asc");
         List<Category> categoryList = categoryMapper.selectByExample(categoryExample);
+        //分页信息放到pageInfo
         PageInfo<Category> pageInfo = new PageInfo<>(categoryList);
+        //得到放置总页数。
         pageDto.setTotal(pageInfo.getTotal());
-//        List<CategoryDto> categoryDtoList = new ArrayList<CategoryDto>();
-//        for (int i = 0, l = categoryList.size(); i < l; i++) {
-//            Category category = categoryList.get(i);
-//            CategoryDto categoryDto = new CategoryDto();
-//            BeanUtils.copyProperties(category, categoryDto);
-//            categoryDtoList.add(categoryDto);
-//        }
+        //把查询到的数据复制给Dto层。
         List<CategoryDto> categoryDtoList = CopyUtil.copyList(categoryList, CategoryDto.class);
         pageDto.setList(categoryDtoList);
 
@@ -53,6 +51,7 @@ public class CategoryService {
         CategoryExample categoryExample = new CategoryExample();
         categoryExample.setOrderByClause("sort asc");
         List<Category> categoryList = categoryMapper.selectByExample(categoryExample);
+        //复制给Dto层。
         List<CategoryDto> categoryDtoList = CopyUtil.copyList(categoryList, CategoryDto.class);
         return categoryDtoList;
 
@@ -101,7 +100,6 @@ public class CategoryService {
     @Transactional
     public void delete(String id) {
         deleteChildren(id);
-
         categoryMapper.deleteByPrimaryKey(id);
 
     }

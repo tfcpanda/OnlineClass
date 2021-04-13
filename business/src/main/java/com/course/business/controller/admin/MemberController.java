@@ -30,6 +30,7 @@ public class MemberController {
     @PostMapping("/list")
     public ResponseDto list(@RequestBody PageDto pageDto) {
         LOG.info("PageDto:{}", pageDto);
+        //创建一个返回Dto层。
         ResponseDto responseDto = new ResponseDto();
         memberService.list(pageDto);
         responseDto.setContent(pageDto);

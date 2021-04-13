@@ -38,9 +38,11 @@ public class LogAspect {
     @Pointcut("execution(public * com.course.*.controller..*Controller.*(..))")
     public void controllerPointcut() {}
 
+
+    //方法开始的时候切入。
     @Before("controllerPointcut()")
     public void doBefore(JoinPoint joinPoint) throws Throwable {
-        // 日志编号
+        // 日志编号，自定义的方法。
         MDC.put("UUID", UuidUtil.getShortUuid());
 
         // 开始打印请求日志
@@ -101,6 +103,7 @@ public class LogAspect {
         LOG.info("请求参数: {}", JSONObject.toJSONString(arguments, excludefilter)); // 为空的会不打印，但是像图片等长字段也会打印
     }
 
+    //环绕通知
     @Around("controllerPointcut()")
     public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();

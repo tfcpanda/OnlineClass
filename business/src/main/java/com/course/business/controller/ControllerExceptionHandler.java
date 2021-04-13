@@ -12,11 +12,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * @author 田付成
  * @date 2021/3/16 21:35
+ *
+ * 通用异常处理器，可以对后端异常进行处理，
+ *
  */
+
+
 
 @ControllerAdvice
 public class ControllerExceptionHandler {
 private static final Logger LOG = LoggerFactory.getLogger(ControllerExceptionHandler.class);
+
+
+    //对后端验证进行异常处理，所有的validatorException的异常都会被拦截。
     @ExceptionHandler(value = ValidatorException.class)
     @ResponseBody
     public ResponseDto validatorExceptionHandler(ValidatorException e) {

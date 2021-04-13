@@ -30,10 +30,8 @@ public class SectionController {
     public ResponseDto list(@RequestBody SectionPageDto sectionPageDto) {
         LOG.info("PageDto:{}", sectionPageDto);
         ResponseDto responseDto = new ResponseDto();
-
         ValidatorUtil.require(sectionPageDto.getCourseId(),"课程ID");
         ValidatorUtil.require(sectionPageDto.getChapterId(), "大章ID");
-
         sectionService.list(sectionPageDto);
         responseDto.setContent(sectionPageDto);
         return responseDto;
@@ -47,21 +45,10 @@ public class SectionController {
     @PostMapping("/save")
     public ResponseDto save(@RequestBody SectionDto sectionDto) {
         ResponseDto responseDto = new ResponseDto();
-
         //后端校验填入信息
-
-
-            ValidatorUtil.require(sectionDto.getTitle(), "标题");
-            ValidatorUtil.length(sectionDto.getTitle(), "标题", 1, 50);
-            ValidatorUtil.length(sectionDto.getVideo(), "视频", 1, 200);
-
-
-
-
-
-
-
-
+        ValidatorUtil.require(sectionDto.getTitle(), "标题");
+        ValidatorUtil.length(sectionDto.getTitle(), "标题", 1, 50);
+        ValidatorUtil.length(sectionDto.getVideo(), "视频", 1, 200);
         sectionService.save(sectionDto);
         responseDto.setContent(sectionDto);
         return responseDto;

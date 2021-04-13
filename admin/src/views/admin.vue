@@ -274,10 +274,10 @@
 
             <li class="light-blue">
               <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-                <img class="nav-user-photo" src="assets/avatars/user.jpg" alt="Jason's Photo"/>
+                <img class="nav-user-photo" src="../../public/ace/assets/images/avatars/user.jpg" alt="Jason's Photo"/>
                 <span class="user-info">
 									<small>Welcome,</small>
-									替换
+									{{ loginUser.name }}
 								</span>
 
                 <i class="ace-icon fa fa-caret-down"></i>
@@ -646,6 +646,7 @@ export default {
     let test = Tool.getLoginUser();
     console.log("内容", test);
   },
+  //通过监听，得到老的路由，和新的路由并把它打印出来。
   watch: {
     $route: {
       handler: function (val, oldVal) {

@@ -11,6 +11,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 
+
+/**
+ * domain是实体类，一般是在service层和Mapper层用到
+ * dto是数据传输层，一般在service层和controller层用到。
+ */
 @RestController
 @RequestMapping("/admin/course")
 public class CourseController {
