@@ -61,8 +61,6 @@ public class ChapterService {
      */
     private void insert(Chapter chapter) {
         chapter.setId(UuidUtil.getShortUuid());
-
-
         chapterMapper.insert(chapter);
 
     }

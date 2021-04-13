@@ -174,7 +174,6 @@ export default {
     },
 
 
-
     /**
      * 编辑方法
      * @param chapter
@@ -188,7 +187,7 @@ export default {
 
     /**
      *列表查询
-     * @param page
+     * @param page从分页组件查询到
      */
     list(page) {
       let _this = this;
@@ -197,9 +196,7 @@ export default {
         page: page,
         size: _this.$refs.pagination.size,
         courseId: _this.course.id
-
       }).then((response) => {
-
         Loading.hide();
         console.log("查询大章节列表结果：", response);
         let resp = response.data;

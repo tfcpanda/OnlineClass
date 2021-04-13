@@ -14,7 +14,6 @@ import javax.annotation.Resource;
 @RestController
 @RequestMapping("/admin/chapter")
 public class ChapterController {
-
     private static final Logger LOG = LoggerFactory.getLogger(ChapterController.class);
     public static final String BUSINESS_NAME = "大章";
     @Resource
@@ -27,6 +26,7 @@ public class ChapterController {
      * @return
      */
     @PostMapping("/list")
+    //前端请求的的是
     public ResponseDto list(@RequestBody ChapterPageDto chapterPageDto) {
         LOG.info("PageDto:{}", chapterPageDto);
         ResponseDto responseDto = new ResponseDto();

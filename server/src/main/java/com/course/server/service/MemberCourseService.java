@@ -29,6 +29,8 @@ public class MemberCourseService {
      * @param pageDto
      */
     public void list(PageDto pageDto) {
+        //pagehelper插件，getpage第几页，pagesize每页的条数。SQl语句加了一个LIMIT，控制查询的条数。
+        //pagehelper遇到的第一个sql语句，会被加上LIMIT。
         PageHelper.startPage(pageDto.getPage(), pageDto.getSize());
         MemberCourseExample memberCourseExample = new MemberCourseExample();
         List<MemberCourse> memberCourseList = memberCourseMapper.selectByExample(memberCourseExample);

@@ -45,12 +45,8 @@ public class SmsController {
         ResponseDto responseDto = new ResponseDto();
 
         //后端校验填入信息
-
-
             ValidatorUtil.require(smsDto.getMobile(), "手机号");
             ValidatorUtil.length(smsDto.getMobile(), "手机号", 1, 50);
-
-
             ValidatorUtil.require(smsDto.getCode(), "验证码");
 
 

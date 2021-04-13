@@ -1,8 +1,9 @@
 package com.course.server.dto;
 
-
+/**
+ * 分类表
+ */
 public class CategoryDto {
-
     /**
     * id
     */

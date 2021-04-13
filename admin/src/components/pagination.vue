@@ -71,6 +71,7 @@ export default {
       let _this = this;
       _this.page = page;
       _this.total = total;
+      //计算分页的页数
       _this.pageTotal = Math.ceil(total / _this.size);
       _this.pages = _this.getPageItems(_this.pageTotal, page, _this.itemCount || 5);
     },
@@ -97,8 +98,8 @@ export default {
 
     /**
      * 当前要显示在页面上的页码
-     * @param total
-     * @param current
+     * @param total 总共多少页
+     * @param current  现在是那一页
      * @param length
      * @returns {Array}
      */

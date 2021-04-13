@@ -5,17 +5,14 @@ package com.course.server.dto;
  * @date 2021/3/16 13:42
  */
 public class ResponseDto<T> {
-
     /**
      * 业务判断
      */
     private boolean success = true;
-
     /**
      * 返回码
      */
     private String code;
-
     /**
      * 返回信息
      */
