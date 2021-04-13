@@ -38,8 +38,10 @@ public class CourseController {
     @PostMapping("/list")
     public ResponseDto list(@RequestBody CoursePageDto pageDto) {
         LOG.info("PageDto:{}", pageDto);
+        //创建返回对象
         ResponseDto responseDto = new ResponseDto();
         courseService.list(pageDto);
+        //得到的list给setContent
         responseDto.setContent(pageDto);
         return responseDto;
     }
@@ -52,13 +54,11 @@ public class CourseController {
     @PostMapping("/save")
     public ResponseDto save(@RequestBody CourseDto courseDto) {
         ResponseDto responseDto = new ResponseDto();
-
         //后端校验填入信息
-
-            ValidatorUtil.require(courseDto.getName(), "名称");
-            ValidatorUtil.length(courseDto.getName(), "名称", 1, 50);
-            ValidatorUtil.length(courseDto.getSummary(), "概述", 1, 2000);
-            ValidatorUtil.length(courseDto.getImage(), "封面", 1, 100);
+        ValidatorUtil.require(courseDto.getName(), "名称");
+        ValidatorUtil.length(courseDto.getName(), "名称", 1, 50);
+        ValidatorUtil.length(courseDto.getSummary(), "概述", 1, 2000);
+        ValidatorUtil.length(courseDto.getImage(), "封面", 1, 100);
         courseService.save(courseDto);
         responseDto.setContent(courseDto);
         return responseDto;
@@ -71,10 +71,10 @@ public class CourseController {
      */
     @DeleteMapping("/delete/{id}")
     public ResponseDto delete(@PathVariable String id) {
+        //前端传递的参数
         ResponseDto responseDto = new ResponseDto();
         LOG.info("id:{}", id);
         courseService.delete(id);
-
         return responseDto;
     }
 
@@ -85,13 +85,19 @@ public class CourseController {
      */
     @PostMapping("/list-category/{courseId}")
     public ResponseDto listCategory(@PathVariable(value = "courseId") String courseId) {
+        //传递一个courseid值
         ResponseDto responseDto = new ResponseDto();
         List<CourseCategoryDto> dtoList = courseCategoryService.listByCourse(courseId);
+        //数据包装给了，返回类型。
         responseDto.setContent(dtoList);
         return responseDto;
     }
 
-
+    /**
+     * 用来查询详细介绍的内容，查找到以后可以把详细内容一起保存
+     * @param id
+     * @return
+     */
     @GetMapping("/find-content/{id}")
     public ResponseDto findContent(@PathVariable String id) {
         ResponseDto responseDto = new ResponseDto();
@@ -100,6 +106,11 @@ public class CourseController {
         return responseDto;
     }
 
+    /**
+     * 详细介绍保存方法
+     * @param contentDto
+     * @return
+     */
     @PostMapping("/save-content")
     public ResponseDto saveContent(@RequestBody CourseContentDto contentDto) {
         ResponseDto responseDto = new ResponseDto();
@@ -107,6 +118,12 @@ public class CourseController {
         return responseDto;
     }
 
+
+    /**
+     * 保存排序方法，
+     * @param sortDto
+     * @return
+     */
     @RequestMapping(value = "/sort")
     public ResponseDto sort(@RequestBody SortDto sortDto) {
         LOG.info("更新排序");

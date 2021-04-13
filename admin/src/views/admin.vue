@@ -375,7 +375,7 @@
               <li v-show="hasResource('0101')" class="" id="system-user-sidebar">
                 <router-link to="/business/user">
                   <i class="menu-icon fa fa-caret-right"></i>
-                  用户管理
+                  管理员管理
                 </router-link>
                 <b class="arrow"></b>
               </li>

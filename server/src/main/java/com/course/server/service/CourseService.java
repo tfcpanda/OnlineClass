@@ -53,10 +53,15 @@ public class CourseService {
      * @param pageDto
      */
     public void list(CoursePageDto pageDto) {
+        //分页
         PageHelper.startPage(pageDto.getPage(), pageDto.getSize());
+        //查询出所有的course数据。
         List<CourseDto> courseDtoList = myCourseMapper.list(pageDto);
+        //把数据表都交给PageInfo查询
         PageInfo<CourseDto> pageInfo = new PageInfo<>(courseDtoList);
+        //得到总条数
         pageDto.setTotal(pageInfo.getTotal());
+        //把查询到的都给pageDto
         pageDto.setList(courseDtoList);
 
     }
@@ -80,7 +85,9 @@ public class CourseService {
      */
     @Transactional
     public void save(CourseDto courseDto) {
+        //把Dto得到的数据给实体类型。
         Course course = CopyUtil.copy(courseDto, Course.class);
+
         if (StringUtils.isEmpty(courseDto.getId())) {
             this.insert(course);
         } else {
@@ -143,9 +150,10 @@ public class CourseService {
     }
 
     /**
-     * 查找课程内容
+     * 查找课程详细内容
      */
     public CourseContentDto findContent(String id) {
+        //查找详细介绍内容
         CourseContent content = courseContentMapper.selectByPrimaryKey(id);
         if (content == null) {
             return null;
@@ -154,7 +162,7 @@ public class CourseService {
     }
 
     /**
-     * 保存课程内容，包含新增和修改
+     * 保存课程内容，包含新增和修改，新增和修改一个方法
      */
     public int saveContent(CourseContentDto contentDto) {
         CourseContent content = CopyUtil.copy(contentDto, CourseContent.class);

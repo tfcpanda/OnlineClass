@@ -37,11 +37,15 @@ public class MemberService {
      * @param pageDto
      */
     public void list(PageDto pageDto) {
+        //分页
         PageHelper.startPage(pageDto.getPage(), pageDto.getSize());
+        //复杂SQL查询
         MemberExample memberExample = new MemberExample();
         List<Member> memberList = memberMapper.selectByExample(memberExample);
         PageInfo<Member> pageInfo = new PageInfo<>(memberList);
+        //set总条数
         pageDto.setTotal(pageInfo.getTotal());
+        //查询到的数据全部都复制给Dto层
         List<MemberDto> memberDtoList = CopyUtil.copyList(memberList, MemberDto.class);
         pageDto.setList(memberDtoList);
 

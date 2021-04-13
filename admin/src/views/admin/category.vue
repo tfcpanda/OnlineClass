@@ -175,6 +175,7 @@ export default {
      */
     edit(category) {
       let _this = this;
+      //得到模态框的值
       _this.category = $.extend({}, category);
       $("#form-modal").modal("show");
     },
@@ -192,14 +193,22 @@ export default {
 
         // 将所有记录格式化成树形结构
         _this.level1 = [];
+        //遍历列长度
         for (let i = 0; i < _this.categorys.length; i++) {
+          //c为列其中的一个
           let c = _this.categorys[i];
+          //如果列中的parent中的值为0000000
           if (c.parent === '00000000') {
+            //放进去，000000为一级导航
             _this.level1.push(c);
+            //便利大类里面的数据
             for (let j = 0; j < _this.categorys.length; j++) {
+              //便利里面的二级导航
               let child = _this.categorys[j];
+                //如果大导航里面有小导航，则是二级导航。
               if (child.parent === c.id) {
                 if (Tool.isEmpty(c.children)) {
+                  //如果是放进二级导航里面
                   c.children = [];
                 }
                 c.children.push(child);
@@ -252,6 +261,7 @@ export default {
       let _this = this;
       Confirm.show("删除分类后不可恢复，确认删除？", function () {
         Loading.show();
+        //点击删除id值
         _this.$ajax.delete(process.env.VUE_APP_SERVER + '/business/admin/category/delete/' + id).then((response)=>{
           Loading.hide();
           let resp = response.data;

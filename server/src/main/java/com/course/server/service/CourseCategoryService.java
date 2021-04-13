@@ -113,6 +113,7 @@ public class CourseCategoryService {
      * @param courseId
      */
     public List<CourseCategoryDto> listByCourse(String courseId) {
+        //复杂sql查询
         CourseCategoryExample example = new CourseCategoryExample();
         example.createCriteria().andCourseIdEqualTo(courseId);
         List<CourseCategory> courseCategoryList = courseCategoryMapper.selectByExample(example);

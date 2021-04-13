@@ -219,7 +219,7 @@ create table `resource` (
 
 insert into `resource` values ('00', '欢迎', 'welcome', null, null);
 insert into `resource` values ('01', '系统管理', null, null, null);
-insert into `resource` values ('0101', '用户管理', 'system/user', null, '01');
+insert into `resource` values ('0101', '管理员管理', 'system/user', null, '01');
 insert into `resource` values ('010101', '保存', null, '["/system/admin/user/list", "/system/admin/user/save"]', '0101');
 insert into `resource` values ('010102', '删除', null, '["/system/admin/user/delete"]', '0101');
 insert into `resource` values ('010103', '重置密码', null, '["/system/admin/user/save-password"]', '0101');
