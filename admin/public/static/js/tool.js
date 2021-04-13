@@ -103,7 +103,9 @@ Tool = {
      */
     hasResource: function (id) {
         let _this = this;
+        //得到他所有的资源
         let resources = _this.getLoginUser().resources;
+        //如果是空的话就return空
         if (_this.isEmpty(resources)) {
             return false;
         }
@@ -118,14 +120,16 @@ Tool = {
     /**
      * 查找是否有权限
      * @param id 资源id
+     *
      */
     hasResource: function (id) {
         let _this = this;
-        //
+        //获取当前登录的用户，得到他所有的资源
         let resources = _this.getLoginUser().resources;
         if (_this.isEmpty(resources)) {
             return false;
         }
+        //循环查找资源
         for (let i = 0; i < resources.length; i++) {
             if (id === resources[i].id) {
                 return true;

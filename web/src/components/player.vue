@@ -64,7 +64,7 @@ export default {
             vid: vod,
             playauth: resp.content,
             // cover: 'http://liveroom-img.oss-cn-qingdao.aliyuncs.com/logo.png',
-            cover: '/static/image/video-image.png',
+            //cover: '/static/image/video-image.png',
             encryptType:1, //当播放私有加密流时需要设置。
           },function(player){
             console.log('播放器创建好了。')

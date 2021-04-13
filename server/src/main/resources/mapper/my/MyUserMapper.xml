@@ -3,8 +3,11 @@
 <mapper namespace="com.course.server.mapper.my.MyUserMapper" >
 
     <!-- 一个用户可以属于多个角色，配置的资源可能重复，所以用distinct去重 -->
+<!--根据userId查询，他的角色id,根据他的角色id查询资源，查询出他的所有资源，按照正序排序-->
+    <!--#{userId}这个是占位符号的意思，相当于SQL中的问号-->
     <select id="findResources" resultType="com.course.server.dto.ResourceDto">
         select distinct r.id, r.`name`, r.page, r.request, r.parent
+
         from role_user ru, role_resource rr, resource r
         where ru.user_id = #{userId}
           and ru.role_id = rr.role_id

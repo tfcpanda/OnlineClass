@@ -113,6 +113,7 @@ public class CategoryService {
         if ("00000000".equals(category.getParent())) {
             // 如果是一级分类，需要删除其下的二级分类
             CategoryExample example = new CategoryExample();
+            //查询Parent等于categoryid值的
             example.createCriteria().andParentEqualTo(category.getId());
             categoryMapper.deleteByExample(example);
         }

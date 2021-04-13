@@ -468,6 +468,7 @@
             </ul>
           </li>
 
+<!--     v-show方法，如果能够查到这个值的话，显示，如果查不到的话就隐藏     -->
           <li v-show="hasResource('03')" class="">
             <a href="#" class="dropdown-toggle">
               <i class="menu-icon fa fa-desktop"></i>

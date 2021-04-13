@@ -100,7 +100,9 @@ public class RoleController {
     @PostMapping("/save-user")
     public ResponseDto saveUser(@RequestBody RoleDto roleDto) {
         LOG.info("保存角色用户关联开始");
+        //创建返回类型
         ResponseDto<RoleDto> responseDto = new ResponseDto<>();
+        //保存User
         roleService.saveUser(roleDto);
         responseDto.setContent(roleDto);
         return responseDto;

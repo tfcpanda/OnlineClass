@@ -140,6 +140,8 @@ export default {
         _this.chapters = _this.course.chapters || [];
         _this.sections = _this.course.sections || [];
 
+
+        //把小节循环到大章中
         // 将所有的节放入对应的章中
         for (let i = 0; i < _this.chapters.length; i++) {
           let c = _this.chapters[i];

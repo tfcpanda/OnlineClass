@@ -32,13 +32,6 @@ public class FileService {
         List<File> fileList = fileMapper.selectByExample(fileExample);
         PageInfo<File> pageInfo = new PageInfo<>(fileList);
         pageDto.setTotal(pageInfo.getTotal());
-//        List<FileDto> fileDtoList = new ArrayList<FileDto>();
-//        for (int i = 0, l = fileList.size(); i < l; i++) {
-//            File file = fileList.get(i);
-//            FileDto fileDto = new FileDto();
-//            BeanUtils.copyProperties(file, fileDto);
-//            fileDtoList.add(fileDto);
-//        }
         List<FileDto> fileDtoList = CopyUtil.copyList(fileList, FileDto.class);
         pageDto.setList(fileDtoList);
 

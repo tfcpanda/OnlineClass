@@ -11,6 +11,7 @@ import com.course.server.util.UuidUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -99,21 +100,28 @@ public class RoleService {
     /**
      * 按角色保存资源
      */
-//    @Transactional
+    @Transactional
     public void saveResource(RoleDto roleDto) {
+        //传过来角色的id
         String roleId = roleDto.getId();
+        //传过来的资源id
         List<String> resourceIds = roleDto.getResourceIds();
         // 清空库中所有的当前角色下的记录
         RoleResourceExample example = new RoleResourceExample();
+        //查找角色roleid下面的值
         example.createCriteria().andRoleIdEqualTo(roleId);
+        //先清空后增加。保持准确性
         roleResourceMapper.deleteByExample(example);
 
         // 保存角色资源，把id有的资源一条条的存进数据库中。
         for (int i = 0; i < resourceIds.size(); i++) {
             RoleResource roleResource = new RoleResource();
             roleResource.setId(UuidUtil.getShortUuid());
+            //一个角色对应很多资源
             roleResource.setRoleId(roleId);
+            //循环全部放进资源表里面
             roleResource.setResourceId(resourceIds.get(i));
+            //添加进去
             roleResourceMapper.insert(roleResource);
         }
     }
@@ -141,8 +149,11 @@ public class RoleService {
     /**
      * 按角色保存用户
      */
+
     public void saveUser(RoleDto roleDto) {
+        //得到角色的id值
         String roleId = roleDto.getId();
+        //得到用户id值，放进list中，列表中
         List<String> userIdList = roleDto.getUserIds();
         // 清空库中所有的当前角色下的记录
         RoleUserExample example = new RoleUserExample();
@@ -150,7 +161,7 @@ public class RoleService {
         example.createCriteria().andRoleIdEqualTo(roleId);
         roleUserMapper.deleteByExample(example);
 
-        // 保存角色用户
+        // 保存角色用户，循环赋值
         for (int i = 0; i < userIdList.size(); i++) {
             RoleUser roleUser = new RoleUser();
             roleUser.setId(UuidUtil.getShortUuid());

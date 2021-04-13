@@ -47,11 +47,13 @@ public class ChapterService {
         //mybatis的数据库查询
         ChapterExample chapterExample = new ChapterExample();
         ChapterExample.Criteria criteria = chapterExample.createCriteria();
+        //如果chapterPageDto的CourseId的值不为空，
         if (!StringUtils.isEmpty(chapterPageDto.getCourseId())){
+            //查询chapter中有courseId的值
             criteria.andCourseIdEqualTo(chapterPageDto.getCourseId());
         }
 
-        //得到大章的数据，Chapter是实体里面的数据。
+        //得到大章的数据，Chapter是实体里面的数据。运行这个实例。
         List<Chapter> chapterList = chapterMapper.selectByExample(chapterExample);
         //把大章的数据放入pageInfo中，PageInfo是pagehelper中的方法。
         /*

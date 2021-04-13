@@ -120,7 +120,9 @@ public class MemberCourseService {
         //sql查询
         MemberCourseExample example = new MemberCourseExample();
         example.createCriteria()
+                //courseid等于courseId，
                 .andCourseIdEqualTo(courseId)
+                //memberid等于memberId的值
                 .andMemberIdEqualTo(memberId);
         //先查询是否有这个id
         List<MemberCourse> memberCourseList = memberCourseMapper.selectByExample(example);

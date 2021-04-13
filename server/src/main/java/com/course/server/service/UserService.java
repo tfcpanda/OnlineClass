@@ -165,17 +165,23 @@ public class UserService {
      * 为登录用户读取权限
      */
     private void setAuth(LoginUserDto loginUserDto) {
+        //通过自定义的方法的到资源列表。
         List<ResourceDto> resourceDtoList = myUserMapper.findResources(loginUserDto.getId());
+        //把资源放到LoginUserDto中。
         loginUserDto.setResources(resourceDtoList);
 
         // 整理所有有权限的请求，用于接口拦截
         HashSet<String> requestSet = new HashSet<>();
+        //先判断是否为空
         if (!CollectionUtils.isEmpty(resourceDtoList)) {
-            //先判断是否为空
             for (int i = 0, l = resourceDtoList.size(); i < l; i++) {
+                //把每一个resourceDtoList放到resourceDto中
                 ResourceDto resourceDto = resourceDtoList.get(i);
+                //把request中的方法放到ArrayString中。
                 String arrayString = resourceDto.getRequest();
+                //通过Json方法转成list.
                 List<String> requestList = JSON.parseArray(arrayString, String.class);
+                //然后全部放进Hashset中。
                 if (!CollectionUtils.isEmpty(requestList)) {
                     requestSet.addAll(requestList);
                 }
