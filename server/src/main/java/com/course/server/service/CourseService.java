@@ -29,6 +29,8 @@ public class CourseService {
     @Resource
     private CourseMapper courseMapper;
 
+
+    //更新时长
     @Resource
     private MyCourseMapper myCourseMapper;
 

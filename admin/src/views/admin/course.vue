@@ -383,14 +383,14 @@ export default {
       ) {
         return;
       }
-      //初始化这棵树。
+      //把勾选的节点记住
       let categorys = _this.tree.getCheckedNodes();
       //选择验证
       if (Tool.isEmpty(categorys)) {
         Toast.warning("请选择分类！");
         return;
       }
-      //把选择的分类保存到课程中
+      //课程一定要选分类
       _this.course.categorys = categorys;
 
    /*   if (Tool.isEmpty(categorys)) {
@@ -475,6 +475,7 @@ export default {
           simpleData: {
             //对应数据库
             idKey: "id",
+            //对应PId为parent
             pIdKey: "parent",
             rootPId: "00000000",
             enable: true

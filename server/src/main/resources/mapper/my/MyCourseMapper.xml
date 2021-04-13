@@ -22,6 +22,9 @@
         order by c.sort asc
     </select>
 
+
+<!--自定义sql查询语句，更新course的time,是所有courseid的和-->
+    <!--属于course的和-->
     <update id="updateTime">
         update course c set `time` = (select sum(`time`) from `section` where course_id = #{courseId})
         where c.id = #{courseId}
