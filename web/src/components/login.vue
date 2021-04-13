@@ -481,18 +481,23 @@ export default {
      */
     sendSmsForForget() {
       let _this = this;
+      //如果手机号验证不对直接返回false
       if (!_this.onForgetMobileBlur()) {
         return false;
       }
+      //设置的他的短信的用处
       let sms = {
         mobile: _this.memberForget.mobile,
+        //设置的他的短信的用处
         use: SMS_USE.FORGET.key
       };
-
+      //传递他的手机号码
       _this.$ajax.get(process.env.VUE_APP_SERVER + '/business/web/member/is-mobile-exist/' + _this.memberForget.mobile).then((res)=>{
         let response = res.data;
         if (response.success) {
+          //手机验证改成成功。
           _this.forgetMobileValidate = true;
+          //发送验证码方法。
           _this.sendSmsCode(sms, "forget-send-code-btn");
         } else {
           _this.forgetMobileValidate = false;
