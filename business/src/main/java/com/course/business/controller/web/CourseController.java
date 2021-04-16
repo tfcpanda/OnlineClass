@@ -50,6 +50,7 @@ public class CourseController {
     @PostMapping("/list")
     public ResponseDto list(@RequestBody CoursePageDto pageDto) {
         ResponseDto responseDto = new ResponseDto();
+        //查询已经出版的
         pageDto.setStatus(CourseStatusEnum.PUBLISH.getCode());
         courseService.list(pageDto);
         responseDto.setContent(pageDto);

@@ -114,9 +114,13 @@ public class SmsService {
         SmsExample example = new SmsExample();
         SmsExample.Criteria criteria = example.createCriteria();
         // 查找1分钟内有没有同手机号同操作发送记录且没被用过
+        //手机号相同
         criteria.andMobileEqualTo(smsDto.getMobile())
+                //用途相同
                 .andUseEqualTo(smsDto.getUse())
+                //没有使用过
                 .andStatusEqualTo(SmsStatusEnum.NOT_USED.getCode())
+                //1分钟以内的
                 .andAtGreaterThan(new Date(new Date().getTime() - 1 * 60 * 1000));
         //创建一个列
         List<Sms> smsList = smsMapper.selectByExample(example);

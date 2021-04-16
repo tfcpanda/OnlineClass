@@ -63,7 +63,7 @@ public class VodController {
         MultipartFile shard = Base64ToMultipartFile.base64ToMultipart(shardBase64);
         // 保存文件到本地
         FileUseEnum useEnum = FileUseEnum.getByCode(use);
-//        //如果文件夹不存在则创建
+  //      //如果文件夹不存在则创建
         String dir = useEnum.name().toLowerCase();
         String path = new StringBuffer(dir)
                 .append("/")
