@@ -190,7 +190,6 @@ export default {
         Loading.hide();
         let resp = response.data;
         _this.categorys = resp.content;
-
         // 将所有记录格式化成树形结构
         _this.level1 = [];
         //遍历列长度
@@ -230,7 +229,6 @@ export default {
      */
     save() {
       let _this = this;
-
       // 保存校验
       if (1 != 1
           || !Validator.require(_this.category.parent, "父id")

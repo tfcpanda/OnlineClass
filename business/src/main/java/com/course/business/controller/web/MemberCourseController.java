@@ -13,6 +13,8 @@ import javax.annotation.Resource;
 /**
  * @author 田付成
  * @date 2021/3/26 13:14
+ *
+ * 用来查订阅信息的
  */
 
 @RestController("webMemberCourseController")
