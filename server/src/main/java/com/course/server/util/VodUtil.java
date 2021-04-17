@@ -1,6 +1,5 @@
 package com.course.server.util;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.aliyun.oss.OSSClient;
 import com.aliyuncs.DefaultAcsClient;
@@ -8,7 +7,6 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.http.FormatType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.vod.model.v20170321.*;
-import org.apache.commons.codec.binary.Base64;
 
 import java.io.File;
 import java.io.InputStream;
@@ -157,38 +155,38 @@ public class VodUtil {
     }
 
 
-    public static void main(String[] argv) {
-        //您的AccessKeyId
-        String accessKeyId = "LTAI5t7xfxyXqEmZycENX5pB";
-        //您的AccessKeySecret
-        String accessKeySecret = "L1wflwaXPBF3R4PMG5MzaSLgO0Ipqj";
-        //需要上传到VOD的本地视频文件的完整路径，需要包含文件扩展名
-        String localFile = "D:\\file\\imooc\\course\\course\\36pN4rNZuwWMGuK2mqw4aI.mp4";
-
-        try {
-            // 初始化VOD客户端并获取上传地址和凭证
-            DefaultAcsClient vodClient = initVodClient(accessKeyId, accessKeySecret);
-            String fileName = "test.mp4";
-
-            CreateUploadVideoResponse createUploadVideoResponse = createUploadVideo(vodClient,fileName);
-            // 执行成功会返回VideoId、UploadAddress和UploadAuth
-            String videoId = createUploadVideoResponse.getVideoId();
-            JSONObject uploadAuth = JSONObject.parseObject(
-                    Base64.decodeBase64(createUploadVideoResponse.getUploadAuth()), JSONObject.class);
-            JSONObject uploadAddress = JSONObject.parseObject(
-                    Base64.decodeBase64(createUploadVideoResponse.getUploadAddress()), JSONObject.class);
-            // 使用UploadAuth和UploadAddress初始化OSS客户端
-            OSSClient ossClient = initOssClient(uploadAuth, uploadAddress);
-            // 上传文件，注意是同步上传会阻塞等待，耗时与文件大小和网络上行带宽有关
-            uploadLocalFile(ossClient, uploadAddress, localFile);
-            System.out.println("上传视频成功, VideoId : " + videoId); // 7d6b8c07ab48456e932187080f42e88f
-
-            GetMezzanineInfoResponse response = new GetMezzanineInfoResponse();
-            response = getMezzanineInfo(vodClient, videoId);
-            System.out.println("获取视频信息, response : " + JSON.toJSONString(response));
-            System.out.println("上传视频成功, VideoId : " + videoId);
-        } catch (Exception e) {
-            System.out.println("上传视频失败, ErrorMessage : " + e.getLocalizedMessage());
-        }
-    }
+//    public static void main(String[] argv) {
+//        //您的AccessKeyId
+//        String accessKeyId = "LTAI5t7xfxyXqEmZycENX5pB";
+//        //您的AccessKeySecret
+//        String accessKeySecret = "L1wflwaXPBF3R4PMG5MzaSLgO0Ipqj";
+//        //需要上传到VOD的本地视频文件的完整路径，需要包含文件扩展名
+//        String localFile = "D:\\file\\imooc\\course\\course\\36pN4rNZuwWMGuK2mqw4aI.mp4";
+//
+//        try {
+//            // 初始化VOD客户端并获取上传地址和凭证
+//            DefaultAcsClient vodClient = initVodClient(accessKeyId, accessKeySecret);
+//            String fileName = "test.mp4";
+//
+//            CreateUploadVideoResponse createUploadVideoResponse = createUploadVideo(vodClient,fileName);
+//            // 执行成功会返回VideoId、UploadAddress和UploadAuth
+//            String videoId = createUploadVideoResponse.getVideoId();
+//            JSONObject uploadAuth = JSONObject.parseObject(
+//                    Base64.decodeBase64(createUploadVideoResponse.getUploadAuth()), JSONObject.class);
+//            JSONObject uploadAddress = JSONObject.parseObject(
+//                    Base64.decodeBase64(createUploadVideoResponse.getUploadAddress()), JSONObject.class);
+//            // 使用UploadAuth和UploadAddress初始化OSS客户端
+//            OSSClient ossClient = initOssClient(uploadAuth, uploadAddress);
+//            // 上传文件，注意是同步上传会阻塞等待，耗时与文件大小和网络上行带宽有关
+//            uploadLocalFile(ossClient, uploadAddress, localFile);
+//            System.out.println("上传视频成功, VideoId : " + videoId); // 7d6b8c07ab48456e932187080f42e88f
+//
+//            GetMezzanineInfoResponse response = new GetMezzanineInfoResponse();
+//            response = getMezzanineInfo(vodClient, videoId);
+//            System.out.println("获取视频信息, response : " + JSON.toJSONString(response));
+//            System.out.println("上传视频成功, VideoId : " + videoId);
+//        } catch (Exception e) {
+//            System.out.println("上传视频失败, ErrorMessage : " + e.getLocalizedMessage());
+//        }
+//    }
 }

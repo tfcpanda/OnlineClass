@@ -184,9 +184,9 @@ export default {
             LocalStorage.set(LOCAL_KEY_REMEMBER_USER, null);
           }
 
-         // _this.$router.push("/welcome")
+         _this.$router.push("/welcome")
           //使用JS原生代码跳转
-          window.open("/welcome", "_self")
+          // window.open("/welcome", "_self")
 
         } else {
           Toast.warning(resp.message);
