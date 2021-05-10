@@ -64,7 +64,6 @@ public class SectionController {
         ResponseDto responseDto = new ResponseDto();
         LOG.info("id:{}", id);
         sectionService.delete(id);
-
         return responseDto;
     }
 }

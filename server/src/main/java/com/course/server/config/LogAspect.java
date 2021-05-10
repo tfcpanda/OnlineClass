@@ -46,8 +46,15 @@ public class LogAspect {
         MDC.put("UUID", UuidUtil.getShortUuid());
 
         // 开始打印请求日志
+        // 接收到请求，记录请求内容
+        //根据ServletRequestAttributes 获取前端请求方法名、参数、路径等信息
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        //接收到request
         HttpServletRequest request = attributes.getRequest();
+
+
+        //JoinPoint对象封装了SpringAop中切面方法的信息,在切面方法中添加JoinPoint参数,就可以获取到封装了该方法信息的JoinPoint对象.
+        //Signature getSignature();获取封装了署名信息的对象,在该对象中可以获取到目标方法名,所属类的Class等信息
         Signature signature = joinPoint.getSignature();
         String name = signature.getName();
 

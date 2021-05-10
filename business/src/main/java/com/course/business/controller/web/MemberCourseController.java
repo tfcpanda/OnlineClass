@@ -23,7 +23,6 @@ public class MemberCourseController {
 
     private static final Logger LOG = LoggerFactory.getLogger(MemberCourseController.class);
     public static final String BUSINESS_NAME = "会员课程报名";
-
     @Resource
     private MemberCourseService memberCourseService;
 

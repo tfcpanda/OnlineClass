@@ -22,12 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.io.ByteArrayInputStream;
 
-/**
- * @author 田付成
- * @date 2021/3/22 13:42
- * 教师头像上传功能、封面上传功能
- */
-
 @RestController
 @RequestMapping("/admin")
 public class OssController {
@@ -65,15 +59,15 @@ public class OssController {
         String shardBase64 = fileDto.getShard();
         MultipartFile shard = Base64ToMultipartFile.base64ToMultipart(shardBase64);
 
-
-        System.out.println("1111");
-
-
         // 保存文件到本地
         FileUseEnum useEnum = FileUseEnum.getByCode(use);
 
 //        //如果文件夹不存在则创建
         String dir = useEnum.name().toLowerCase();
+//        File fullDir = new File(FILE_PATH + dir);
+//        if (!fullDir.exists()) {
+//            fullDir.mkdir();
+//        }
 
 //        String path = dir + File.separator + key + "." + suffix + "." + fileDto.getShardIndex();
         String path = new StringBuffer(dir)
@@ -82,9 +76,15 @@ public class OssController {
                 .append(".")
                 .append(suffix)
                 .toString(); // course\6sfSqfOwzmik4A4icMYuUe.mp4
+//        String localPath = new StringBuffer(path)
+//                .append(".")
+//                .append(fileDto.getShardIndex())
+//                .toString(); // course\6sfSqfOwzmik4A4icMYuUe.mp4.1
+//        String fullPath = FILE_PATH + localPath;
+//        File dest = new File(fullPath);
+//        shard.transferTo(dest);
+//        LOG.info(dest.getAbsolutePath());
 
-
-        //从这里开始是阿里云的代码
         // 创建OSSClient实例。
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
 
@@ -93,7 +93,7 @@ public class OssController {
         meta.setContentType("text/plain");
 
         // 通过AppendObjectRequest设置多个参数。
-        AppendObjectRequest appendObjectRequest = new AppendObjectRequest(bucket, path, new ByteArrayInputStream(shard.getBytes()), meta);
+        AppendObjectRequest appendObjectRequest = new AppendObjectRequest(bucket, path, new ByteArrayInputStream(shard.getBytes()),meta);
 
         // 通过AppendObjectRequest设置单个参数。
         // 设置存储空间名称。
@@ -110,22 +110,22 @@ public class OssController {
         // 第一次追加。
         // 设置文件的追加位置。
 //        appendObjectRequest.setPosition(0L);
-
-        //注意分片上传的片数。如果只有一片上传就会失败
-//        System.out.println("222222");
-//        System.out.println(shardIndex);
-//        if (shardIndex == 1){
-//            shardIndex = shardIndex + 1;
-//            System.out.println(shardIndex);
-//        }
-        appendObjectRequest.setPosition((long) ((shardIndex - 1 ) * shardSize));
-
+        appendObjectRequest.setPosition((long) ((shardIndex - 1) * shardSize));
         AppendObjectResult appendObjectResult = ossClient.appendObject(appendObjectRequest);
         // 文件的64位CRC值。此值根据ECMA-182标准计算得出。
         System.out.println(appendObjectResult.getObjectCRC());
         System.out.println(JSONObject.toJSONString(appendObjectResult));
 
-
+//        // 第二次追加。
+//        // nextPosition指明下一次请求中应当提供的Position，即文件当前的长度。
+//        appendObjectRequest.setPosition(appendObjectResult.getNextPosition());
+//        appendObjectRequest.setInputStream(new ByteArrayInputStream(content2.getBytes()));
+//        appendObjectResult = ossClient.appendObject(appendObjectRequest);
+//
+//        // 第三次追加。
+//        appendObjectRequest.setPosition(appendObjectResult.getNextPosition());
+//        appendObjectRequest.setInputStream(new ByteArrayInputStream(content3.getBytes()));
+//        appendObjectResult = ossClient.appendObject(appendObjectRequest);
 
         // 关闭OSSClient。
         ossClient.shutdown();
@@ -145,13 +145,7 @@ public class OssController {
     }
 
 
-    /**
-     * 简单上传不用这个
-     * @param file
-     * @param use
-     * @return
-     * @throws Exception
-     */
+
     @PostMapping("/oss-simple")
     public ResponseDto fileUpload(@RequestParam MultipartFile file, String use) throws Exception {
         LOG.info("上传文件开始");

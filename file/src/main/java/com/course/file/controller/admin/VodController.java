@@ -23,11 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 
-/**
- * @author 田付成
- * @date 2021/3/22 18:20
- */
-
 @RestController
 @RequestMapping("/admin")
 public class VodController {
@@ -45,31 +40,43 @@ public class VodController {
     @Resource
     private FileService fileService;
 
-
-    /**
-     * 文件上传接口
-     * @param fileDto
-     * @return
-     * @throws Exception
-     */
     @PostMapping("/vod")
     public ResponseDto fileUpload(@RequestBody FileDto fileDto) throws Exception {
         LOG.info("上传文件开始");
         String use = fileDto.getUse();
         String key = fileDto.getKey();
         String suffix = fileDto.getSuffix();
+        Integer shardIndex = fileDto.getShardIndex();
+        Integer shardSize = fileDto.getShardSize();
         String shardBase64 = fileDto.getShard();
         MultipartFile shard = Base64ToMultipartFile.base64ToMultipart(shardBase64);
+
         // 保存文件到本地
         FileUseEnum useEnum = FileUseEnum.getByCode(use);
-  //      //如果文件夹不存在则创建
+
+//        //如果文件夹不存在则创建
         String dir = useEnum.name().toLowerCase();
+//        File fullDir = new File(FILE_PATH + dir);
+//        if (!fullDir.exists()) {
+//            fullDir.mkdir();
+//        }
+
+//        String path = dir + File.separator + key + "." + suffix + "." + fileDto.getShardIndex();
         String path = new StringBuffer(dir)
                 .append("/")
                 .append(key)
                 .append(".")
                 .append(suffix)
                 .toString(); // course\6sfSqfOwzmik4A4icMYuUe.mp4
+//        String localPath = new StringBuffer(path)
+//                .append(".")
+//                .append(fileDto.getShardIndex())
+//                .toString(); // course\6sfSqfOwzmik4A4icMYuUe.mp4.1
+//        String fullPath = FILE_PATH + localPath;
+//        File dest = new File(fullPath);
+//        shard.transferTo(dest);
+//        LOG.info(dest.getAbsolutePath());
+
         String vod = "";
         String fileUrl = "";
         try {
@@ -90,43 +97,38 @@ public class VodController {
             GetMezzanineInfoResponse response = VodUtil.getMezzanineInfo(vodClient, vod);
             System.out.println("获取视频信息, response : " + JSON.toJSONString(response));
             fileUrl = response.getMezzanine().getFileURL();
+
             // 关闭OSSClient。
             ossClient.shutdown();
         } catch (Exception e) {
             LOG.info("上传视频失败, ErrorMessage : " + e.getLocalizedMessage(), e);
         }
+
+
         LOG.info("保存文件记录开始");
         fileDto.setPath(path);
         fileDto.setVod(vod);
         fileService.save(fileDto);
+
         ResponseDto responseDto = new ResponseDto();
-        //获取时长
         fileDto.setPath(fileUrl);
         responseDto.setContent(fileDto);
+
+//        if (fileDto.getShardIndex().equals(fileDto.getShardTotal())) {
+//            this.merge(fileDto);
+//        }
         return responseDto;
     }
 
-
-    /**
-     * 授权播放
-     *
-     * @param vod
-     * @return
-     * @throws ClientException
-     */
     @RequestMapping(value = "/get-auth/{vod}", method = RequestMethod.GET)
     public ResponseDto getAuth(@PathVariable String vod) throws ClientException {
         LOG.info("获取播放授权开始: ");
         ResponseDto responseDto = new ResponseDto();
-        //验证密钥
         DefaultAcsClient client = VodUtil.initVodClient(accessKeyId, accessKeySecret);
-        //初始化一个播放的对象
         GetVideoPlayAuthResponse response = new GetVideoPlayAuthResponse();
         try {
-            //验证成功的后的client，和播放vod地址
             response = VodUtil.getVideoPlayAuth(client, vod);
             LOG.info("授权码 = {}", response.getPlayAuth());
-            //得到播放权。
             responseDto.setContent(response.getPlayAuth());
             //VideoMeta信息
             LOG.info("VideoMeta = {}", JSON.toJSONString(response.getVideoMeta()));

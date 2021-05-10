@@ -9,7 +9,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 
-
 @SpringBootApplication
 @EnableDiscoveryClient
 @MapperScan("com.course.server.mapper")
@@ -24,7 +23,5 @@ public class BusinessApplication {
 		Environment env = app.run(args).getEnvironment();
 		LOG.info("启动成功！！");
 		LOG.info("business地址: \thttp://127.0.0.1:{}", env.getProperty("server.port"));
-
 	}
-
 }
